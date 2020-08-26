@@ -12,11 +12,10 @@
     </div>
     <div class="row rounded pt-2">
         <ul class="list-group col-12">
-            <% const userCards = cards.filter(card => card.user === currentUser.id); %>
-            <% if(userCards.length < 1) { %>
-                <div class="display-4 text-center text-muted mt-5">Your cards will be saved here...</div>
+            <% if(cards.length == 0) { %>
+                <h4 class="text-center text-muted mt-5">Your cards will be saved here...</h4>
             <% }; %>
-            <% userCards.forEach(card => { %>
+            <% cards.forEach(card => { %>
                 <div class="list-group-item bg-transparent">
                     <a href="/cards/<%= card._id %>/edit"><%= card.name %></a>
                     <p class="text-muted d-block float-right"><%= card.dateCreated %></p>

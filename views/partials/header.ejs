@@ -23,6 +23,11 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    <button class="nav-link topNav disabled">
+                        <em>Signed in as <%= currentUser.firstName %></em>
+                    </button>
+                </li>
+                <li class="nav-item">
                     <form action="/logout" method="POST">
                         <button type="submit" class="nav-link topNav">
                             Logout <i class="fas fa-sign-out-alt ml-1"></i>

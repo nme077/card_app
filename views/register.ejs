@@ -10,19 +10,19 @@
     <form class="mt-5" action="/register" method="POST">
         <div class="form-group">
             <label for="firstName">First name</label>
-            <input type="text" class="form-control form-control-lg" id="firstName" name="firstName">
+            <input type="text" class="form-control form-control-lg" id="firstName" name="firstName" required>
         </div>
         <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control form-control-lg" id="email" aria-describedby="emailHelp" name="email">
+            <input type="email" class="form-control form-control-lg" id="email" aria-describedby="emailHelp" name="email" required>
         </div>
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control form-control-lg" id="username" name="username">
+            <input type="text" class="form-control form-control-lg" id="username" name="username" required>
         </div>
         <div class="form-group">
             <label for="password">Create password</label>
-            <input type="password" id="password" class="form-control form-control-lg" name="password">
+            <input type="password" id="password" class="form-control form-control-lg" name="password" required>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
     </form>

@@ -41,11 +41,14 @@ function isLoggedIn(req, res, next) {
 // ALL CARDS
 router.get('/', isLoggedIn, (req, res) => {
     Card.find({}, (err, cards) => {
+        // Show only cards created by the current user
+        const userCards = cards.filter(card => card.user === req.user.id);
+
         if(err) {
             // Handle error when image not found
             console.log(err);
         } else {
-            res.render('index', {cards: cards});
+            res.render('index', {cards: userCards});
         }
     });
 });
@@ -74,7 +77,6 @@ router.post('/', isLoggedIn, (req, res) => {
             createdCard.dateCreated = dateCreated;
             createdCard.user = user;
             createdCard.save();
-            console.log(createdCard);
             res.redirect(`/cards/${createdCard._id}`);
         }
     });
@@ -94,10 +96,9 @@ router.get('/:id', isLoggedIn, (req, res) => {
 });
 
 
-// DELETE EDIT ROUTE
 
 // Edit card
-router.get('/:id/edit', isLoggedIn, (req, res) => {
+router.get('/:id/edit',isLoggedIn, (req, res) => {
     Card.findById(req.params.id, (err, foundCard) => {
         if(err) {
             // Handle error when image not found
