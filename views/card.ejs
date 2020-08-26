@@ -1,0 +1,49 @@
+<%- include('./partials/header.ejs') %>
+<main class="main">
+
+<form action="/cards/<%= card._id %>?_method=PUT" method="POST" id="card-content-input">
+    <div class="form-group row mx-5">
+        <label for="card-name-input" class="col-sm-2 col-form-label">Card Title</label>
+        <input type="text" class="form-control col-sm-5" value="<%= card.name %>" name="card[name]" id="card-name-input" required>
+    </div>
+        <div class="page">
+            <div class="topofpage">
+                <!--Insert card layout-->
+            </div>
+            <div class="bottomofpage">
+                <%- include(`./card_templates/${card.template_choice}`) %>
+            </div>
+        </div>
+
+
+
+        <div class="container col-6">
+            <div class="form-group">
+                <select class="form-control" name="card[template_choice]" id="template_choice" required>
+                    <option value="" disabled>--Select a template--</option>
+                    <% templateArr.forEach(template => { %>
+                        <option value="<%= template %>"><%= template.charAt(0).toUpperCase() + template.slice(1).replace(/[_]/, ' ') %></option>
+                    <% }) %>
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <input type="text" class="form-control image-input" id="image-input-1" placeholder="Image URL" name="card[image]" value="<%= card.images[0].image %>" required>
+            </div>
+                <button type="submit" class="btn btn-primary mb-5">Save Changes</button>
+            </form>
+        </div>
+
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-dark btn-lg rounded-circle mb-5 p-3 ml-5 shadow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Edit
+            </button>
+            <div class="dropdown-menu shadow">
+                <!-- Dropdown menu links -->
+                <form action="/cards/<%= card._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger submit btn-block rounded-0" href="#">Delete</button>
+                </form>
+            </div>
+        </div>
+</main>
+<%- include('./partials/footer.ejs') %>

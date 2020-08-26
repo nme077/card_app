@@ -1,0 +1,23 @@
+<%- include('./partials/header.ejs') %>
+
+<form action="/cards" method="POST" class="container justify-content-center col-md-6 col-xs-12" id="card-content-input">
+<main class="main">
+    <h1>Create a new Card</h1>
+
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Name of Card" name="card[name]" required>
+    </div>
+    <div class="form-group" id="template_choice">
+        <select class="form-control" name="card[template_choice]"  required>
+            <option value="" disabled selected>--Select a template--</option>
+            <% templateArr.forEach(template => { %>
+                <option value="<%= template %>"><%= template.charAt(0).toUpperCase() + template.slice(1).replace(/[_]/, ' ') %></option>
+            <% }) %>
+        </select>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</main>
+<%- include('./partials/footer.ejs') %>

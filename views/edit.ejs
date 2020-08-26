@@ -1,0 +1,34 @@
+<%- include('./partials/header.ejs') %>
+
+<form action="/cards/<%= card._id %>?_method=PUT" method="POST" class="container justify-content-center col-md-6 col-xs-12" id="card-content-input">
+    <h1 class="mb-3">Edit <%= card.name %></h1>
+
+    <div class="form-group">
+        <input type="text" class="form-control" value="<%= card.name %>" name="card[name]" required>
+    </div>
+    <div class="form-group">
+        <select class="form-control" name="card[template_choice]" id="template_choice" required>
+            <option value="" disabled>--Select a template--</option>
+            <% templateArr.forEach(template => { %>
+                <option value="<%= template %>"><%= template.charAt(0).toUpperCase() + template.slice(1).replace(/[_]/, ' ') %></option>
+            <% }) %>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control image-input" id="image-input-1" placeholder="Image URL" name="card[image]" value="<%= card.images[0].image %>" required>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" value="<%= card.messages[0].message %>" name="card[message]" required>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" value="<%= card.user %>" name="card[user]" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<form action="/cards/<%= card._id %>?_method=DELETE" method="POST">
+    <button class="btn btn-danger">Delete card</button>
+</form>
+
+
+<%- include('./partials/footer.ejs') %>

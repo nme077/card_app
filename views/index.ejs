@@ -1,0 +1,30 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="container" id="card-list">
+    <div class="row">
+        <div class="col-12">
+            <a href="/cards/new"><button class="btn btn-lg btn-primary float-right rounded-pill">Create new card</button></a>
+        </div>
+    </div>
+    <div class="row mt-4 border-bottom border-dark">
+        <h2 class="float-left col-6"><strong>Card</strong></h2>
+        <h2 class="text-right col-6"><strong>Date Created</strong></h2>
+    </div>
+    <div class="row rounded pt-2">
+        <ul class="list-group col-12">
+            <% const userCards = cards.filter(card => card.user === currentUser.id); %>
+            <% if(userCards.length < 1) { %>
+                <div class="display-4 text-center text-muted mt-5">Your cards will be saved here...</div>
+            <% }; %>
+            <% userCards.forEach(card => { %>
+                <div class="list-group-item bg-transparent">
+                    <a href="/cards/<%= card._id %>/edit"><%= card.name %></a>
+                    <p class="text-muted d-block float-right"><%= card.dateCreated %></p>
+                </div>
+            <% }); %>
+        </ul>
+    </div>  
+</div>
+
+
+<%- include('./partials/footer.ejs') %>
