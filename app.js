@@ -16,7 +16,7 @@ const app = express();
 
 // CONNECT TO MONGODB
 const uri = "mongodb+srv://nme077:TaATXCxXpciY2Qv@cluster0.vmffh.mongodb.net/card_app?retryWrites=true&w=majority";
-mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true}).catch(error => handleError(error));
+mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).catch(error => handleError(error));
 
 // require routes
 const cardRoutes = require('./routes/cards');
