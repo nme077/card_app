@@ -1,4 +1,5 @@
 const passport = require('passport');
+const user = require('../models/user');
 
 const express = require('express'),
       router = express.Router(),
@@ -7,7 +8,11 @@ const express = require('express'),
 
 // Show register form
 router.get('/register', (req, res) => {
-    res.render('register')
+    if(req.isAuthenticated()) {
+        res.redirect('/cards');
+    } else {
+        res.render('register');
+    }
 });
 // Handle registration logic
 router.post('/register', (req, res) => {
@@ -30,7 +35,11 @@ router.post('/register', (req, res) => {
 
 // Show login form
 router.get('/login', (req, res) => {
-    res.render('login');
+    if(req.isAuthenticated()) {
+        res.redirect('/cards');
+    } else {
+        res.render('login');
+    }
 });
 // Handle login
 router.post('/login', passport.authenticate('local', {

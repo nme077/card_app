@@ -2,11 +2,16 @@
     --navbar-color: #202020;
 }
 
+/* Standard CSS */
 body, html {
+    margin: 0;
     width: 100vw;
-    height: 100%;
-    display: block;
+    height: 100vh;
     background-color: #e6e6e6;
+}
+
+.main {
+    margin-top: 80px;
 }
 
 /* universal css */
@@ -32,6 +37,17 @@ a:hover {
 
 #auth-logo {
     max-width: 200px;
+}
+
+.container-full-width {
+    max-width: 100% !important;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.page input[type=text] {
+    background: none; 
+    border: none;
 }
 
 .nav-link {
@@ -93,8 +109,9 @@ button.bottomNav, button.topNav, a.topNav {
 /* Card screen */
 .page {
     width: 215.9mm;
-    height: calc(279.4mm);
-    margin: 45px auto;
+    max-width: 100%;
+    height: 279.4mm;
+    margin: 30px auto;
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
@@ -113,21 +130,6 @@ button.bottomNav, button.topNav, a.topNav {
     color: #e6e6e6;
 }
 
-@media only screen and (max-width: 800px) {
-    .page {
-        margin-top: 0;
-        transform: scale(.7);
-    }
-}
-
-@media only screen and (max-width: 375px) {
-    .page {
-        margin-top: 0;
-        transform: scale(.6);
-    }
-}
-
-
 .topofpage, .bottomofpage {
     height: 50%;
     border-top: 1px solid lightgray;
@@ -137,8 +139,8 @@ button.bottomNav, button.topNav, a.topNav {
     transform: rotate(180deg);
 }
 
-.main {
-    margin-top: 70px;
+img {
+    max-height: 100%;
 }
 
 /* Card List */
@@ -182,6 +184,10 @@ button.bottomNav, button.topNav, a.topNav {
 #topright, #topleft {
     padding-top: 100px;
     padding-bottom: 100px;
+}
+
+.column-label {
+    font-size: 1.6em;
 }
 
 /* Landing Page Cards */
@@ -249,9 +255,9 @@ button.bottomNav, button.topNav, a.topNav {
 #register-form, #login-form {
     position: relative;
     z-index: 1;
-    padding-top: 8em;
+    padding-top: 6em;
 }
 
 #login-form {
-    padding-top: 14em;
+    padding-top: 11em;
 }
