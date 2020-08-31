@@ -54,7 +54,9 @@ app.get('/', (req, res) => {
 app.use('/cards', cardRoutes);
 app.use(authRoutes);
 
-
+app.get('*', (req, res) => {
+    res.redirect('/');
+});
 
 
 var port = process.env.PORT || 3000;
