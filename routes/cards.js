@@ -89,7 +89,7 @@ router.post('/', isLoggedIn, (req, res) => {
 // Show edit card page
 router.get('/:id/edit',isLoggedIn, (req, res) => {
     Card.findById(req.params.id, (err, foundCard) => {
-        if(err) {
+        if(err || !foundCard) {
             // Handle error when image not found
             console.log(err);
             res.redirect('/cards');
@@ -148,7 +148,6 @@ router.put('/:id', isLoggedIn, (req, res) => {
 router.delete('/:id', isLoggedIn, (req, res) => {
     Card.findByIdAndDelete(req.params.id, (err ,cardToDelete) => {
         if(err) {
-            console.log(err);
             res.redirect('/cards');
         } else {
             if(cardToDelete.user.id.equals(req.user._id)) {
