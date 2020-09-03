@@ -204,8 +204,8 @@ img {
 
 #css-card-1 {
     width: 50%;
-    height: 55%;
-    bottom: -400px;
+    height: 15%;
+    bottom: 0;
     background-color: #4B644A;
     border-radius: 0 10px 10px 0;
     z-index: 0;

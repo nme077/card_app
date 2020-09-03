@@ -9,7 +9,8 @@ const express = require("express"),
       User = require('./models/user'),
       Card = require('./models/card'),
       path = require('path'),
-      fs = require('fs');
+      fs = require('fs'),
+      mongodb = require('mongodb');
 
 // Initialize express
 const app = express();
