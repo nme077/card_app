@@ -207,7 +207,7 @@ img {
     height: 15%;
     bottom: 0;
     background-color: #4B644A;
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 10px 0 0;
     z-index: 0;
 }
 
@@ -260,4 +260,16 @@ img {
 
 #login-form {
     padding-top: 11em;
+}
+
+.alert-container{
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    margin: auto;
+    max-width: fit-content;
+}
+
+.alert {
+    font-size: 1.2em;
 }

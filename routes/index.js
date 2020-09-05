@@ -4,7 +4,13 @@ const user = require('../models/user');
 const express = require('express'),
       router = express.Router(),
       Card = require('../models/card'),
-      User = require('../models/user');
+      User = require('../models/user'),
+      middleware = require('../middleware');
+
+// Landing page
+router.get('/', (req, res) => {
+    res.render('landing');
+});
 
 // Show register form
 router.get('/register', (req, res) => {
@@ -24,10 +30,11 @@ router.post('/register', (req, res) => {
 
     User.register(new User(userInfo), req.body.password, (err, user) => {
         if(err) {
-            return res.send(err);
+            req.flash('error', err.message);
+            return res.redirect('back');
         }
         passport.authenticate('local')(req, res, () => {
-            console.log('user created!')
+            req.flash('success', `Welcome, ${req.user.firstName}!`)
             res.redirect('/cards');
         });
     });
@@ -44,7 +51,9 @@ router.get('/login', (req, res) => {
 // Handle login
 router.post('/login', passport.authenticate('local', {
         successRedirect: '/cards',
-        failureRedirect: '/login'
+        failureRedirect: '/login',
+        failureFlash: true,
+        successFlash: 'Successfully logged in. Welcome!'
     }), (req, res) => {
         // logged in
 }); 
@@ -52,6 +61,7 @@ router.post('/login', passport.authenticate('local', {
 // Logout
 router.post('/logout', (req, res) => {
     req.logout();
+    req.flash('success','You have logged out!')
     res.redirect('/')
 });
 

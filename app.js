@@ -10,7 +10,8 @@ const express = require("express"),
       Card = require('./models/card'),
       path = require('path'),
       fs = require('fs'),
-      mongodb = require('mongodb');
+      mongodb = require('mongodb'),
+      flash = require('connect-flash');
 
 // Initialize express
 const app = express();
@@ -24,15 +25,12 @@ const cardRoutes = require('./routes/cards');
 const authRoutes = require('./routes/index');
       
 
-// Middleware
+// Config
+app.use(flash());
 app.set('view engine', "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
-app.use((req, res, next) => {
-    res.locals.path = req.path;
-    next();
-});
 
 // Setup passport
 app.use(session({
@@ -46,11 +44,14 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
-// Routes
-app.get('/', (req, res) => {
-    res.render('landing');
+app.use((req, res, next) => {
+    res.locals.errorMessage = req.flash('error');
+	res.locals.successMessage = req.flash('success');
+    res.locals.path = req.path;
+    next();
 });
+
+
 // Use routes
 app.use('/cards', cardRoutes);
 app.use(authRoutes);
