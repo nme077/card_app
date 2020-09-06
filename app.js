@@ -11,14 +11,14 @@ const express = require("express"),
       path = require('path'),
       fs = require('fs'),
       mongodb = require('mongodb'),
-      flash = require('connect-flash');
+      flash = require('connect-flash'),
+      dotenv = require('dotenv').config();
 
 // Initialize express
 const app = express();
 
 // CONNECT TO MONGODB
-const uri = "mongodb+srv://nme077:TaATXCxXpciY2Qv@cluster0.vmffh.mongodb.net/card_app?retryWrites=true&w=majority";
-mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).catch(error => handleError(error));
+mongoose.connect(process.env.URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).catch(error => handleError(error));
 
 // require routes
 const cardRoutes = require('./routes/cards');
