@@ -6,6 +6,7 @@ const express = require("express"),
       localStrategy = require('passport-local'),
       passportLocalMongoose = require('passport-local-mongoose'),
       session = require('express-session'),
+      MemoryStore = require('memorystore')(session),
       User = require('./models/user'),
       Card = require('./models/card'),
       path = require('path'),
@@ -34,6 +35,10 @@ app.use(methodOverride("_method"));
 
 // Setup passport
 app.use(session({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+    }),
     secret: 'Def Leppard is the GOAT',
     resave: false,
     saveUninitialized: false
