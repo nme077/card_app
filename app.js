@@ -9,11 +9,13 @@ const express = require("express"),
       MemoryStore = require('memorystore')(session),
       User = require('./models/user'),
       Card = require('./models/card'),
+      Image = require('./models/image'),
       path = require('path'),
       fs = require('fs'),
       mongodb = require('mongodb'),
       flash = require('connect-flash'),
-      dotenv = require('dotenv').config();
+      dotenv = require('dotenv').config(),
+      multer = require('multer');
 
 // Initialize express
 const app = express();
@@ -41,7 +43,8 @@ app.use(session({
     }),
     secret: 'Def Leppard is the GOAT',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    credentials: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());

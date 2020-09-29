@@ -1,9 +1,13 @@
 <div class="col-12 text-center" style="height: 75%;">
-   <img class="mx-auto" style="max-width: 45%; margin-top: 5%;" src="<%= card.images[0] !== undefined ? card.images[0].image : '' %>">
-   <img class="mx-auto" style="max-width: 45%; margin-top: 5%;" src="<%= card.images[1] !== undefined ? card.images[1].image : '' %>">
+   <div class="dropzone mx-auto float-left" style="height: 100%; width: 45%; margin-top: 5%; margin-left: 5% !important; background: gray;">
+      <img class="card-image" src="<%= card.images[0] !== undefined ? card.images[0].image : '' %>" style="max-width: 100%;">
+   </div>
+   <div class="dropzone mx-auto float-right" style="height: 100%; width: 45%; margin-top: 5%; margin-right: 5% !important; background: gray;">
+      <img class="card-image" src="<%= card.images[1] !== undefined ? card.images[1].image : '' %>" style="max-width: 100%;">
+   </div>
 </div>
 
 
  <div class="col-12 text-center">
-    <input type="text" class="text-center" placeholder="Type a message!" style="margin-top: 6%; width: 100%;" name="card[message]" value="<%= card.messages[0].message %>">
+    <input type="text" class="text-center message" placeholder="Type a message!" style="margin-top: 3%; width: 100%;" name="card[message]" value="<%= card.messages[0].message %>">
  </div>

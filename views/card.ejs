@@ -5,19 +5,42 @@
     </button>
     <div class="dropdown-menu">
         <!-- Dropdown menu links -->
-        <a class="dropdown-item">Print</a>
+        <a class="dropdown-item" id="print-btn">Print</a>
         <div class="dropdown-divider"></div>
-        <form action="/cards/<%= card._id %>?_method=DELETE" method="POST">
-            <button class="dropdown-item submit text-danger" href="#">Delete</button>
+        <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
+            <button class="dropdown-item submit text-danger" type="submit" data-toggle="modal" data-target="#deleteModal" id="delete_button">Delete</button>
         </form>
       </div>
 </div>
 
-<main class="container main">
+  
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Delete Card</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this card?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirm">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+<main class="container main mb-4">
 
-<form action="/cards/<%= card._id %>?_method=PUT" method="POST" id="card-content-input">
-    <h3 class="mt-5 pt-5 d-inline"><strong><%= card.name %></strong></h3>
+  <div id="form1" id="card-content-input">
+    <h3 class="mt-5 pt-5 d-inline" id="card-title"><strong><%= card.name %></strong></h3>
+    <button class="btn btn-primary float-right" id="save">Save changes</button>
+    <!--Page to print-->
     <div class="page">
         <div class="topofpage d-block">
             <!--Insert card layout-->
@@ -26,22 +49,30 @@
             <%- include(`./card_templates/${card.template_choice}`) %>
         </div>
     </div>
+  </div>
 
+  <!-- Image upload -->
+  <div class="container col-sm-10 col-md-8" id="image-upload-container">
+    <form id="form2" action="/cards/image/upload" method="post" enctype="multipart/form-data">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="validatedCustomFile" name="imageUpload">
+        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+      </div>
 
-    
-    <div class="container col-sm-10 col-md-8" id="image-input-container">
-        <!--Image input fields-->
-        <% let i = 0 %>
-        <% for(i = 0; i < templateData[card.template_choice].numOfImages; i++) { %>
-                <% let imgString = card.images[i] !== undefined ? card.images[i].image : ''; %>
-            <div class="form-group">
-                <label for="image-input-<%= i+1 %>">Image URL <%= i+1 %></label>
-                <input type="text" class="form-control image-input" id="image-input-<%= i+1 %>" placeholder="Image URL" name="card[image]" value="<%= imgString %>">
-            </div>
-        <% }; %>
-            
-        <button type="submit" class="btn btn-primary mb-5">Save Changes</button>
-    </div>
+      <button type="submit" id="upload-img-btn" class="btn btn-primary mt-3" value="form2" style="display: none;">Upload photo</button>
     </form>
+  </div>
+  
+  <div class="container">
+      <% for(let file of files) { %>
+          <div class="imageDiv d-inline">
+            <form class="d-inline delete-photo-form" action="/cards/image/<%= file._id %>/<%= file.filename %>?_method=DELETE" method="POST">
+              <button class="btn btn-danger delete-photo-btn"><i class="fas fa-times"></i></button>
+            </form>
+              <img class="col-3 col-lg-2 draggableImage m-2" src="/uploads/<%= file.filename %>" draggable="true">
+          </div>
+      <% } %>
+  </div>
+  
 </main>
 <%- include('./partials/footer.ejs') %>

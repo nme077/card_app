@@ -1,11 +1,14 @@
 const express = require('express'),
       router = express.Router(),
       Card = require('../models/card'),
+      Image = require('../models/image'),
       templateData = require('../templateData'),
       path = require('path'),
       fs = require('fs'),
       { runInNewContext } = require("vm"),
-      middleware = require('../middleware');
+      middleware = require('../middleware'),
+      multer = require('multer');
+      
 
 // CREATE AN ARRAY OF ALL TEMPLATE FILES
 //joining path of directory 
@@ -30,7 +33,6 @@ router.use((req, res, next) => {
     res.locals.templateData = templateData;
     next();
 });
-
 
 // ALL CARDS
 router.get('/', middleware.isLoggedIn, (req, res) => {
@@ -89,7 +91,15 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
             res.redirect('/cards');
         } else {
             if(foundCard.user.id.equals(req.user._id)) {
-                res.render('card', {card: foundCard, templateArr: templateArr});
+                Image.find({}, (err, foundImages) => {
+                    if(err) {
+                        req.flash('error', 'Error loading photos')
+                    } else {
+                        const userImages = foundImages.filter(image => image.user.id.equals(req.user._id));
+
+                        res.render('card', {card: foundCard, templateArr: templateArr, files: userImages});
+                    }
+                });
             } else {
                 req.flash('error', 'You do not have permission to edit this card')
                 res.redirect('back');
@@ -97,6 +107,34 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
         }
     });
 });
+
+function updateCard(req, card) {
+    const images = JSON.stringify(String(req.body.card.image)).replace(/"/g,'').split(',');
+    const messages = req.body.card.message; 
+    console.log(images);
+
+    // initialize arrays
+    card.images = [];
+    card.messages = [];
+    // Handle image array
+    if(typeof images == 'string') {
+        card.images.push({'image': images});
+    } else {
+        Object.values(images).forEach(image => {
+            card.images.push({'image': image});
+        });
+    };
+    // Handle message array
+    if(typeof messages == 'string') {
+        card.messages.push({'message': messages});
+    } else {
+        Object.values(messages).forEach(message => {
+            card.messages.push({'message': message});
+        });
+    };
+
+    card.save();
+}
 
 
 // Update card
@@ -107,30 +145,8 @@ router.put('/:id', middleware.isLoggedIn, (req, res) => {
             res.redirect('back');
         } else {
             if(card.user.id.equals(req.user._id)) {
-                const imageInputs = req.body.card.image;
-                const messages = req.body.card.message;  
+                updateCard(req, card);
 
-                // initialize arrays
-                card.images = [];
-                card.messages = [];
-                // Handle image array
-                if(typeof imageInputs == 'string') {
-                    card.images.push({'image': imageInputs});
-                } else {
-                    Object.values(imageInputs).forEach(image => {
-                        card.images.push({'image': image});
-                    });
-                };
-                // Handle message array
-                if(typeof messages == 'string') {
-                    card.messages.push({'message': messages});
-                } else {
-                    Object.values(messages).forEach(message => {
-                        card.messages.push({'message': message});
-                    });
-                };
-
-                card.save();
                 req.flash('success', 'Changes successfully saved');
                 res.redirect(`/cards/${card._id}/edit`);
             } else {
@@ -150,6 +166,75 @@ router.delete('/:id', middleware.isLoggedIn, (req, res) => {
             if(cardToDelete.user.id.equals(req.user._id)) {
                 req.flash('success', 'Card deleted!');
                 res.redirect('/cards');
+            }
+        }
+    });
+});
+
+
+//////////////////////
+// Image upload routes
+//////////////////////
+
+
+// Set up multer
+const storage = multer.diskStorage({
+    filename: (req, file, callback) => {
+        callback(null, Date.now+file.originalname);
+    }
+});
+upload = multer({ 
+    dest: './public/uploads/'
+});
+
+
+// Upload image
+router.post('/image/upload', middleware.isLoggedIn, upload.single('imageUpload'), function (req, res) {
+    // 1. Upload the file
+    const fileToSave = {
+        filename: req.file.filename,
+        user: {
+            id: req.user._id,
+            username: req.user.username
+        }
+    }
+    // 2. Create the file info in the db
+
+    Image.create(fileToSave, (err, uploadedImage) => {
+        if(err) {
+            console.log(err);
+            req.flash('error', 'Something went wrong');
+            res.redirect('back');
+        } else {
+            req.flash('success', 'Image uploaded');
+            res.redirect('back');
+        }
+    })
+});
+
+router.delete('/image/:id/:filename', middleware.isLoggedIn, function (req, res) {
+    // delete reference to image from db
+    // delete image from uploads
+    Image.findByIdAndDelete(req.params.id, (err, imageToDelete) => {
+        if(err) {
+            req.flash('error', 'Something went wrong');
+            res.redirect('back');
+        } else {
+            if(imageToDelete.user.id.equals(req.user._id)) {
+                // Delete from server
+                fs.unlink(`./public/uploads/${req.params.filename}`, (err, deleted) => {
+                    if(err) {
+                        console.log(err);
+                        return
+                    } else {
+                        console.log(deleted)
+                    }
+                })
+                req.flash('success', 'Photo deleted!');
+                res.redirect('back');
+            } else {
+                req.flash('error', 'You are no permitted to delete this photo');
+                res.redirect('back');
             }
         }
     });

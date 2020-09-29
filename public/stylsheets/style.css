@@ -2,6 +2,31 @@
     --navbar-color: #202020;
 }
 
+/* Print rules */
+@media print {
+    body {
+      visibility: hidden;
+    }
+    #image-input-container, #card-title, nav {
+        display: none;
+    }
+    form, .main {
+        margin-top: 0 !important;
+    }
+    .page * {
+      visibility: visible;
+    }
+    .page {
+        top: 85px; /* Same as .main margin*/
+        left: 10px;
+        margin: 0 auto !important;
+        visibility: visible;
+        font-size: 32.64px;
+        height: 1056px;
+        transform: scale(1.23);
+    }
+  }
+
 /* Standard CSS */
 body, html {
     margin: 0;
@@ -64,20 +89,6 @@ a:hover {
     outline: none;
     box-shadow: none;
 }
-
-@media print {
-    body * {
-      visibility: hidden;
-    }
-    .page * {
-      visibility: visible;
-    }
-    .page {
-        visibility: visible;
-        top: -100px;
-        transform: scale(1.2);
-    }
-  }
 
 .list-group-item {
     color: black;
@@ -272,4 +283,25 @@ img {
 
 .alert {
     font-size: 1.2em;
+}
+
+.draggableImage {
+    position: relative;
+    cursor: grab;
+    z-index: 1;
+    transition: 3s;
+    padding: 0;
+}
+
+.imageDiv {
+    position: relative;
+}
+
+.imageDiv:hover .draggableImage, .draggableImage:hover {
+    left: 40px;
+}
+
+.delete-photo-btn, .delete-photo-form {
+    position: relative;
+    left: 25px;
 }
