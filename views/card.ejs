@@ -51,12 +51,13 @@
     </div>
   </div>
 
+  <h4 class="text-center">Photo Gallery</h4>
   <!-- Image upload -->
-  <div class="container col-sm-10 col-md-8" id="image-upload-container">
+  <div class="container col-sm-10 col-md-8 mb-3" id="image-upload-container">
     <form id="form2" action="/cards/image/upload" method="post" enctype="multipart/form-data">
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="validatedCustomFile" name="imageUpload">
-        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+        <label class="custom-file-label" for="validatedCustomFile">Upload a photo...</label>
       </div>
 
       <button type="submit" id="upload-img-btn" class="btn btn-primary mt-3" value="form2" style="display: none;">Upload photo</button>
@@ -64,15 +65,18 @@
   </div>
   
   <div class="container">
+    <div class="row">
       <% for(let file of files) { %>
-          <div class="imageDiv d-inline">
-            <form class="d-inline delete-photo-form" action="/cards/image/<%= file._id %>/<%= file.filename %>?_method=DELETE" method="POST">
-              <button class="btn btn-danger delete-photo-btn"><i class="fas fa-times"></i></button>
-            </form>
-              <img class="col-3 col-lg-2 draggableImage m-2" src="/uploads/<%= file.filename %>" draggable="true">
+          <div class="imageDiv col-3 col-lg-2 col-xl-1">
+              <img class="draggableImage" src="<%= file.href %>" draggable="true">
+              <div class="photo-menu">
+                <form class="d-inline delete-photo-form" action="/cards/image/<%= file._id %>/<%= file.file_id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-clear delete-photo-btn text-white"><i class="far fa-trash-alt"></i></button>
+                </form>
+            </div>
           </div>
-      <% } %>
+      <% } %> 
+    </div>
   </div>
-  
 </main>
 <%- include('./partials/footer.ejs') %>

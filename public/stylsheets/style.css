@@ -287,21 +287,35 @@ img {
 
 .draggableImage {
     position: relative;
-    cursor: grab;
-    z-index: 1;
-    transition: 3s;
+    cursor: pointer;
+    z-index: 0;
     padding: 0;
-}
-
-.imageDiv {
-    position: relative;
-}
-
-.imageDiv:hover .draggableImage, .draggableImage:hover {
-    left: 40px;
+    width: 100%;
+    max-height: 100%;
+    margin: 10px;
 }
 
 .delete-photo-btn, .delete-photo-form {
-    position: relative;
-    left: 25px;
+    position: absolute;
+    z-index: 1;
+    left: .7em;
+    top: .2em;
+    font-size: 1em;
+}
+
+.photo-menu {
+    display: none;
+}
+
+.delete-photo-btn:hover {
+    transform: scale(1.1);
+}
+
+.selected-img {
+    border: 5px dashed gray;
+}
+
+.dropzone-active {
+    opacity: .5;
+    cursor: pointer;
 }

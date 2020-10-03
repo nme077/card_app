@@ -63,61 +63,81 @@ $('.custom-file-input').change(function() {
     }
   });
 
-// Drag and drop image functionality
+/////////////////////////
+// Adding images to cards
+/////////////////////////
+
 const draggableImages = document.querySelectorAll('.draggableImage');
 const imageContainers = document.querySelectorAll('.dropzone');
 let dragged;
 
-
+// Event listeners
 for (let image of draggableImages) {
-    image.addEventListener('dragstart', dragStart);
-    image.addEventListener('dragend', dragEnd);
+    image.addEventListener('click', dragStart);
+    image.addEventListener('mouseover', mouseEnter);
+    image.addEventListener('mouseout', mouseLeave);
 };
-
 
 for (let imageContainer of imageContainers) {
-    imageContainer.addEventListener('drop', drop);
-    imageContainer.addEventListener('dragover', dragOver);
-    imageContainer.addEventListener('dragenter', dragEnter);
-    imageContainer.addEventListener('dragenter', dragLeave);
+    imageContainer.addEventListener('click', drop);
 };
-  
-  function dragStart(e) {
-    dragged = e.target;
-    console.log(dragged)
-  };
-  
-  function dragEnd(e) {
-    // Do something
-  };
-  
-  function drop(e) {
-    e.preventDefault();
 
+function dragStart(e) {
+      // Remove styling from any element with class 'selected-img' then add class
+    $('.selected-img').removeClass('selected-img');
+    $(this).addClass('selected-img');
+    $('.dropzone').addClass('dropzone-active');
+    // Save clicked element
+    dragged = e.target;
+};
+
+function drop(e) {
+    e.preventDefault();
     const imageNodeArr = Array.from(this.childNodes);
     let image;
-    
+
     for(let value of imageNodeArr.values()) {
         if(value.nodeName === 'IMG') {
             image = value;
         }
     }
+    if(dragged) {
+        image.src = dragged.src;
+    }
+    //Remove styling from selected image
+    $('.selected-img').removeClass('selected-img');
+    $('.dropzone').removeClass('dropzone-active');
+};
 
-    image.src = dragged.src;
-    //Add image
-  };
-  
-  function dragOver(e) {
-    e.preventDefault();
-  };
+// Remove image selection if 
+window.addEventListener('click', (e) => {
+    if(e.target.nodeName !== 'IMG') {
+        dragged = '';
+        $('.selected-img').removeClass('selected-img');
+        $('.dropzone').removeClass('dropzone-active');
+    }
+});
 
-  function dragEnter(e) {
 
-  };
+  const deleteButtons = $('.delete-photo-btn, .delete-photo-form')
 
-  function dragLeave(e) {
+function mouseEnter(e) {
+    const children = e.target.parentNode.childNodes;
+    
+    for(const child of children) {
+        if(child.classList && child.classList.contains('photo-menu'))
+        return child.style.display = 'inline'
+    }
+}
 
-  };
+function mouseLeave(e) {
+    const children = e.target.parentNode.childNodes;
+    
+    for(const child of children) {
+        if(child.classList && child.classList.contains('photo-menu'))
+        return child.style.display = 'none'
+    }
+}
 
 // Handle save button
   $("#save").on('click', function(e) {
@@ -164,4 +184,5 @@ for(let el of imageElements) {
         el.css('background-color', '#c9c9c9')
     }
 };
+
 

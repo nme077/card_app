@@ -8,7 +8,8 @@ const imageSchema = new mongoose.Schema({
 		}, 
 		username: String
     },
-    filename: String
+    file_id: String,
+    href: String
 });
 
 module.exports = mongoose.model('Image', imageSchema);

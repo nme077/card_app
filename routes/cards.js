@@ -7,8 +7,14 @@ const express = require('express'),
       fs = require('fs'),
       { runInNewContext } = require("vm"),
       middleware = require('../middleware'),
-      multer = require('multer');
-      
+      multer = require('multer'),
+      cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+    cloud_name:  process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+})
 
 // CREATE AN ARRAY OF ALL TEMPLATE FILES
 //joining path of directory 
@@ -100,6 +106,7 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
                         res.render('card', {card: foundCard, templateArr: templateArr, files: userImages});
                     }
                 });
+                
             } else {
                 req.flash('error', 'You do not have permission to edit this card')
                 res.redirect('back');
@@ -178,41 +185,41 @@ router.delete('/:id', middleware.isLoggedIn, (req, res) => {
 
 
 // Set up multer
-const storage = multer.diskStorage({
-    filename: (req, file, callback) => {
-        callback(null, Date.now+file.originalname);
-    }
-});
+
 upload = multer({ 
-    dest: './public/uploads/'
+    storage: multer.diskStorage({})
 });
 
 
 // Upload image
-router.post('/image/upload', middleware.isLoggedIn, upload.single('imageUpload'), function (req, res) {
+router.post('/image/upload', middleware.isLoggedIn, upload.single("imageUpload"), function (req, res) {
     // 1. Upload the file
-    const fileToSave = {
-        filename: req.file.filename,
-        user: {
-            id: req.user._id,
-            username: req.user.username
+    cloudinary.uploader.upload(req.file.path, function(err, result) {
+        const fileToSave = {
+            href: result.secure_url,
+            file_id: result.public_id,
+            user: {
+                id: req.user._id,
+                username: req.user.username
+            }
         }
-    }
-    // 2. Create the file info in the db
-
-    Image.create(fileToSave, (err, uploadedImage) => {
-        if(err) {
-            console.log(err);
-            req.flash('error', 'Something went wrong');
-            res.redirect('back');
-        } else {
-            req.flash('success', 'Image uploaded');
-            res.redirect('back');
-        }
+        // 2. Create the file info in the db
+    
+        Image.create(fileToSave, (err, uploadedImage) => {
+            if(err) {
+                console.log(err);
+                req.flash('error', 'Something went wrong');
+                res.redirect('back');
+            } else {
+                req.flash('success', 'Image uploaded');
+                res.redirect('back');
+            }
+        })
     })
+
 });
 
-router.delete('/image/:id/:filename', middleware.isLoggedIn, function (req, res) {
+router.delete('/image/:id/:file_id', middleware.isLoggedIn, function (req, res) {
     // delete reference to image from db
     // delete image from uploads
     Image.findByIdAndDelete(req.params.id, (err, imageToDelete) => {
@@ -222,14 +229,7 @@ router.delete('/image/:id/:filename', middleware.isLoggedIn, function (req, res)
         } else {
             if(imageToDelete.user.id.equals(req.user._id)) {
                 // Delete from server
-                fs.unlink(`./public/uploads/${req.params.filename}`, (err, deleted) => {
-                    if(err) {
-                        console.log(err);
-                        return
-                    } else {
-                        console.log(deleted)
-                    }
-                })
+                cloudinary.uploader.destroy(req.params.file_id, function(err, result) { console.log(result) });
                 req.flash('success', 'Photo deleted!');
                 res.redirect('back');
             } else {
