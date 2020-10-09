@@ -56,7 +56,7 @@
   <div class="container col-sm-10 col-md-8 mb-3" id="image-upload-container">
     <form id="form2" action="/cards/image/upload" method="post" enctype="multipart/form-data">
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="validatedCustomFile" name="imageUpload">
+        <input type="file" class="custom-file-input" id="validatedCustomFile" name="imageUpload" accept="image/*">
         <label class="custom-file-label" for="validatedCustomFile">Upload a photo...</label>
       </div>
 
@@ -67,7 +67,7 @@
   <div class="container">
     <div class="row">
       <% for(let file of files) { %>
-          <div class="imageDiv col-3 col-lg-2 col-xl-1">
+          <div class="imageDiv col-4 col-lg-3 col-xl-2">
               <img class="draggableImage" src="<%= file.href %>" draggable="true">
               <div class="photo-menu">
                 <form class="d-inline delete-photo-form" action="/cards/image/<%= file._id %>/<%= file.file_id %>?_method=DELETE" method="POST">

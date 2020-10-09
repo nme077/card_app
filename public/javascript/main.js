@@ -1,34 +1,39 @@
-
 // Resize page to fit window
 const page = document.querySelector('.page');
 
 $(document).ready(() => {
     if(page !== null) {
-        resize();
+        resizeCard();
     }
 });
 
 $(window).resize(() => {
     if(page !== null) {
-        resize();
+        resizeCard();
+        resizePlaceholder();
     }
 });
 
-function resize() {
+function resizeCard() {
     const ratio = 11/8.5; // Standard sheet of paper
     const width = $('.page').css('width').replace(/px/,'');
     const height = Math.floor(width * ratio);
 
     const fontSize = .04 * width
-    $('.page input[type=text').css('font-size', `${fontSize}px`);
-
+    $('.page input[type=text]').css('font-size', `${fontSize}px`);
     $('.page').css('height', `${height}px`);
+};
+
+function resizePlaceholder() {
+    for (let imageContainer of imageContainers) {
+        const width = imageContainer.clientWidth * .5;
+        $('.placeholder').css('font-size', `${width}px`);
+    };
 };
 
 $('.card-name').bind('contextmenu', () => {
     return false;
 });
-
 
 // Confirm delete
 $('#delete_button').on('click', (e) => {
@@ -36,7 +41,6 @@ $('#delete_button').on('click', (e) => {
     e.preventDefault();
     $('#deleteModal')
     .on('click', '#confirm', () => {
-        console.log($form)
         $form.submit();
     });
     $('#cancel').on('click', (e) => {
@@ -51,7 +55,7 @@ $('#print-btn').on('click', (e) => {
     window.print();
 });
 
-
+// Handle file input label
 $('.custom-file-input').change(function() {
     //Update file name in text field
     var file = $('.custom-file-input')[0].files[0].name;
@@ -73,25 +77,32 @@ let dragged;
 
 // Event listeners
 for (let image of draggableImages) {
-    image.addEventListener('click', dragStart);
-    image.addEventListener('mouseover', mouseEnter);
-    image.addEventListener('mouseout', mouseLeave);
+    image.addEventListener('click', clickStart);
 };
 
 for (let imageContainer of imageContainers) {
-    imageContainer.addEventListener('click', drop);
+    imageContainer.addEventListener('click', clickEnd);
 };
 
-function dragStart(e) {
+function clickStart(e) {
       // Remove styling from any element with class 'selected-img' then add class
+    $('.photo-menu').css('display','none');
     $('.selected-img').removeClass('selected-img');
-    $(this).addClass('selected-img');
     $('.dropzone').addClass('dropzone-active');
+    $(this).addClass('selected-img');
     // Save clicked element
     dragged = e.target;
+
+    // Photo menu
+    const children = e.target.parentNode.childNodes;
+    
+    for(const child of children) {
+        if(child.classList && child.classList.contains('photo-menu'))
+        return child.style.display = 'inline'
+    };
 };
 
-function drop(e) {
+function clickEnd(e) {
     e.preventDefault();
     const imageNodeArr = Array.from(this.childNodes);
     let image;
@@ -100,44 +111,58 @@ function drop(e) {
         if(value.nodeName === 'IMG') {
             image = value;
         }
-    }
+    };
+    // Add image source when not undefined
     if(dragged) {
         image.src = dragged.src;
+        addPlaceholderImg();
     }
-    //Remove styling from selected image
-    $('.selected-img').removeClass('selected-img');
-    $('.dropzone').removeClass('dropzone-active');
+
+    removeSelection();
 };
 
-// Remove image selection if 
+// Remove image selection if clicking away
 window.addEventListener('click', (e) => {
     if(e.target.nodeName !== 'IMG') {
-        dragged = '';
-        $('.selected-img').removeClass('selected-img');
-        $('.dropzone').removeClass('dropzone-active');
-    }
+        removeSelection();
+    };
 });
 
+function removeSelection() {
+    dragged = '';
+    $('.selected-img').removeClass('selected-img');
+    $('.dropzone').removeClass('dropzone-active');
+    $('.photo-menu').css('display','none');
+};
 
-  const deleteButtons = $('.delete-photo-btn, .delete-photo-form')
+// Handle image placeholder
 
-function mouseEnter(e) {
-    const children = e.target.parentNode.childNodes;
+addPlaceholderImg();
+
+function addPlaceholderImg() {
+    const imageElements = document.querySelectorAll('.card-image');
     
-    for(const child of children) {
-        if(child.classList && child.classList.contains('photo-menu'))
-        return child.style.display = 'inline'
-    }
-}
+    for(let el of imageElements) {
+        const src = el.src.replace(/^(.*[\\\/])/,'');
+        const parentElement = el.parentElement;
 
-function mouseLeave(e) {
-    const children = e.target.parentNode.childNodes;
-    
-    for(const child of children) {
-        if(child.classList && child.classList.contains('photo-menu'))
-        return child.style.display = 'none'
+        if(src === 'none' || src === 'edit') {
+            // Hide default placeholder
+            el.style.display = 'none';
+            // Set background style of parent element
+            parentElement.style.background = '#c9c9c9';
+            parentElement.style.opacity = 0.5;
+            // Size the placeholder image
+            resizePlaceholder();
+        } else {
+            // Remove the placeholder image
+            removeChildNodeByClass(parentElement, 'placeholder');
+            parentElement.style.background = '';
+            parentElement.style.opacity = 1;
+            el.style.display = '';
+        }
     }
-}
+};
 
 // Handle save button
   $("#save").on('click', function(e) {
@@ -174,15 +199,12 @@ setTimeout(() => {
     $('.alert-container').fadeOut("slow")
 },10000);
 
-
-// Handle image placeholder
-const imageElements = document.querySelectorAll('.card-image');
-for(let el of imageElements) {
-    const attributes = Object.values(el.attributes);
-
-    if(el.src === '') {
-        el.css('background-color', '#c9c9c9')
+function removeChildNodeByClass(parent, className) {
+    const children = parent.childNodes;
+        
+    for(let child of children) {
+        if(child.className !== undefined && child.className.includes(className)) {
+            return parent.removeChild(child);
+        }
     }
-};
-
-
+}

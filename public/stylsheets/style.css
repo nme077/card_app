@@ -311,11 +311,37 @@ img {
     transform: scale(1.1);
 }
 
+@keyframes activeSelection {
+    0%   {transform: rotate(2deg);}
+    20%  {transform: rotate(-2deg);}
+    35%  {transform: rotate(2deg);}
+    50%  {transform: rotate(-2deg);}
+    78%  {transform: rotate(2deg);}
+    100% {transform: rotate(2deg);}
+}
+
 .selected-img {
-    border: 5px dashed gray;
+    box-shadow: 0 0 15px grey;
+    transform: scale(1.06);
+    animation-name: activeSelection;
+    animation-iteration-count: infinite;
+    animation-duration: .5s;
+    animation-timing-function: linear;
 }
 
 .dropzone-active {
     opacity: .5;
     cursor: pointer;
+    border: 2px dashed gray;
+}
+
+.empty {
+    background-color: lightgray;
+}
+
+.placeholder {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

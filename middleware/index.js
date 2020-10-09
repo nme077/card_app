@@ -9,4 +9,14 @@ middlewareObj.isLoggedIn = function(req, res, next) {
 	res.redirect('/register');
 };
 
+middlewareObj.allowedFileType = function(req, res, next) {
+	const mimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/ief', 'image/pipeg', 'image/svg+xml', 'image/tiff'];
+
+	if(mimeTypes.includes(req.file.mimetype)) {
+		return next();
+	}
+	req.flash('error', 'File type not supported');
+	res.redirect('back');
+}
+
 module.exports = middlewareObj;

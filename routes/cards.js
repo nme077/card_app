@@ -192,7 +192,7 @@ upload = multer({
 
 
 // Upload image
-router.post('/image/upload', middleware.isLoggedIn, upload.single("imageUpload"), function (req, res) {
+router.post('/image/upload', middleware.isLoggedIn, upload.single("imageUpload"), middleware.allowedFileType, function (req, res) {
     // 1. Upload the file
     cloudinary.uploader.upload(req.file.path, function(err, result) {
         const fileToSave = {

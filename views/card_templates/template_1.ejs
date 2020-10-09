@@ -1,6 +1,7 @@
 <div class="col-12 text-center dropzone" style="height: 75%; width: 100%;">
    <!-- must be valid image url-->
-   <img class="mx-auto card-image" style="max-width: 85%; margin-top: 5%;" name="card[image]" src="<%= card.images[0].image !== undefined ? card.images[0].image : '' %>">
+   <img class="mx-auto card-image" style="max-width: 85%; margin-top: 5%;" name="card[image]" src="<%= card.images[0].image !== undefined ? card.images[0].image : '' %>" onError="this.onerror=null;this.src='none';">
+   <i class="far fa-image placeholder"></i>
    
 </div>
 <div class="col-12 text-center">
