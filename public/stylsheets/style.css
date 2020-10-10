@@ -312,17 +312,16 @@ img {
 }
 
 @keyframes activeSelection {
-    0%   {transform: rotate(2deg);}
-    20%  {transform: rotate(-2deg);}
-    35%  {transform: rotate(2deg);}
-    50%  {transform: rotate(-2deg);}
-    78%  {transform: rotate(2deg);}
-    100% {transform: rotate(2deg);}
+    0%   {transform: rotate(2deg); }
+    20%  {transform: rotate(-2deg); }
+    35%  {transform: rotate(2deg); }
+    50%  {transform: rotate(-2deg); }
+    75%  {transform: rotate(2deg); }
+    100% {transform: rotate(-2deg); }
 }
 
 .selected-img {
     box-shadow: 0 0 15px grey;
-    transform: scale(1.06);
     animation-name: activeSelection;
     animation-iteration-count: infinite;
     animation-duration: .5s;

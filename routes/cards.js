@@ -2,6 +2,7 @@ const express = require('express'),
       router = express.Router(),
       Card = require('../models/card'),
       Image = require('../models/image'),
+      User = require('../models/user'),
       templateData = require('../templateData'),
       path = require('path'),
       fs = require('fs'),
@@ -16,23 +17,6 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 })
 
-// CREATE AN ARRAY OF ALL TEMPLATE FILES
-//joining path of directory 
-const directoryPath = path.join(__dirname, '../views/card_templates');
-//passing directoryPath and callback function
-let templateArr = [];
-fs.readdir(directoryPath, function (err, files) {
-    //handling error
-    if (err) {
-        return console.log('Unable to scan directory: ' + err);
-    } 
-    //listing all files using forEach
-    files.forEach(function (file) {
-        // Do whatever you want to do with the file
-        file = file.replace(/.ejs/, '');
-        templateArr.push(file);
-    });
-});
 
 router.use((req, res, next) => {
     res.locals.currentUser = req.user;
@@ -58,7 +42,7 @@ router.get('/', middleware.isLoggedIn, (req, res) => {
 
 // New card
 router.get('/new', middleware.isLoggedIn, (req, res) => {
-    res.render('create', {templateArr: templateArr});
+    res.render('create', {templateArr: templateData});
 });
 
 // Create new card
@@ -68,7 +52,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
     const user = {
 		id: req.user._id,
 		username: req.user.username
-	};
+    };
     const currentDate = new Date();
     const dateCreated = `${currentDate.getMonth()}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
     // Save the card data to the database
@@ -102,8 +86,15 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
                         req.flash('error', 'Error loading photos')
                     } else {
                         const userImages = foundImages.filter(image => image.user.id.equals(req.user._id));
+                        let numOfPhotos = userImages.length;
+                        User.findByIdAndUpdate(req.user._id, {numOfPhotos}, (err, user) => {
+                            if(err) {
+                                req.flash('error', 'Error, please try again');
+                                res.redirect('back');
+                            }
+                        });
 
-                        res.render('card', {card: foundCard, templateArr: templateArr, files: userImages});
+                        res.render('card', {card: foundCard, files: userImages});
                     }
                 });
                 

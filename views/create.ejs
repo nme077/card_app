@@ -11,7 +11,7 @@
         <select class="form-control" name="card[template_choice]"  required>
             <option value="" disabled selected>--Select a template--</option>
             <% templateArr.forEach(template => { %>
-                <option value="<%= template %>"><%= template.charAt(0).toUpperCase() + template.slice(1).replace(/[_]/, ' ') %></option>
+                <option value="<%= template.fileName %>"><%= template.name %></option>
             <% }) %>
         </select>
     </div>
