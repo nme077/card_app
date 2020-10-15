@@ -349,10 +349,10 @@ img {
 }
 
 footer {
-    position: absolute;
+    margin: 2em 0 2em 0;
+    position: relative;
     width: 100%;
     text-align: center;
-    bottom: 30px;
 }
 
 .social-link {
