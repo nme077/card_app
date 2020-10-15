@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/stylsheets/style.css">
+    
 </head>
 <body>
     <% if(path !== '/' && path !== '/register' && path !== '/login') { %>
@@ -22,6 +23,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <button class="nav-link topNav">
+                        <a href="/tutorial" class="topNav" id="tutorial-btn">Learn more</a>
+                    </button>
+                </li>
                 <li class="nav-item">
                     <button class="nav-link topNav disabled">
                         Signed in as <%= currentUser.firstName %>

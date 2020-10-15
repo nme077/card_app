@@ -5,7 +5,7 @@
     </button>
     <div class="dropdown-menu">
         <!-- Dropdown menu links -->
-        <a class="dropdown-item" id="print-btn">Print</a>
+        <a class="dropdown-item" id="print-btn">Save as PDF</a>
         <div class="dropdown-divider"></div>
         <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
             <button class="dropdown-item submit text-danger" type="submit" data-toggle="modal" data-target="#deleteModal" id="delete_button">Delete</button>
@@ -39,7 +39,7 @@
 
   <div id="form1" id="card-content-input">
     <h3 class="mt-5 pt-5 d-inline" id="card-title"><strong><%= card.name %></strong></h3>
-    <button class="btn btn-primary float-right" id="save">Save changes</button>
+    <button class="btn btn-primary float-right" id="save">Save card</button>
     <!--Page to print-->
     <div class="page">
         <div class="topofpage d-block">
@@ -68,7 +68,7 @@
     <div class="row">
       <% for(let file of files) { %>
           <div class="imageDiv col-4 col-lg-3 col-xl-2">
-              <img class="draggableImage" src="<%= file.href %>" draggable="true">
+              <img class="draggableImage" crossorigin="anonymous" src="<%= file.href %>" draggable="true">
               <div class="photo-menu">
                 <form class="d-inline delete-photo-form" action="/cards/image/<%= file._id %>/<%= file.file_id %>?_method=DELETE" method="POST">
                   <button class="btn btn-clear delete-photo-btn text-white"><i class="far fa-trash-alt"></i></button>

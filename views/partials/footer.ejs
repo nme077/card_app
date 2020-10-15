@@ -19,15 +19,35 @@
     </div>
 <% }; %>
 
+<% const date = new Date(); %>
+
+<footer> 
+    <small>&copy; Copyright <%= date.getFullYear() %>, Nicholas</small> <br>
+    <a href="http://www.linkedin.com/in/nicholas-eveland-7988279a" class="btn btn-dark social-link mt-3" target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+</footer> 
+
+
+
+<!--jsPDF-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<!--dom-to-image-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 <!--jQuery-->
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<!--html2pdf-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.js" integrity="sha512-CAlCnxBY4CJKhSvYNsnWtMxKjwLgRhHuJw7wUoOmjlrTDcRLQ5LD9P6YgWETJAmZTurlU86vBovlySF3KvjPeg==" crossorigin="anonymous"></script>
+<!--html2canvas-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js" integrity="sha512-OqcrADJLG261FZjar4Z6c4CfLqd861A3yPNMb+vRQ2JwzFT49WT4lozrh3bcKxHxtDTgNiqgYbEUStzvZQRfgQ==" crossorigin="anonymous"></script>
+<!--Custom JS-->
 <script src="/javascript/main.js"></script>
-
 <!--Axios-->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <!--Bootstrap JS-->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
 
 
 </body>

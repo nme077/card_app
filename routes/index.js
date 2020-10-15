@@ -7,6 +7,11 @@ const express = require('express'),
       User = require('../models/user'),
       middleware = require('../middleware');
 
+router.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 // Landing page
 router.get('/', (req, res) => {
     res.render('landing');
@@ -63,6 +68,10 @@ router.post('/logout', (req, res) => {
     req.logout();
     req.flash('success','You have logged out!')
     res.redirect('/')
+});
+
+router.get('/tutorial', (req, res) => {
+    res.render('tutorial');
 });
 
 

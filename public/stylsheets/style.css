@@ -117,6 +117,10 @@ button.bottomNav, button.topNav, a.topNav {
     -moz-transition: all 100ms;
 }
 
+#tutorial-btn:hover {
+    color: gray;
+}
+
 /* Card screen */
 .page {
     width: 215.9mm;
@@ -129,7 +133,7 @@ button.bottomNav, button.topNav, a.topNav {
     page-break-after: always;
     background-color: white;
     box-shadow: 0 0 5px grey;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Arial Black', sans-serif;
   }
 
 #card-name-input {
@@ -313,18 +317,17 @@ img {
 
 @keyframes activeSelection {
     0%   {transform: rotate(2deg); }
-    20%  {transform: rotate(-2deg); }
-    35%  {transform: rotate(2deg); }
-    50%  {transform: rotate(-2deg); }
-    75%  {transform: rotate(2deg); }
-    100% {transform: rotate(-2deg); }
+    15%  {transform: rotate(-2deg); }
+    30%  {transform: rotate(2deg); }
+    75%  {transform: rotate(-2deg); }
+    100% {transform: rotate(2deg); }
 }
 
 .selected-img {
     box-shadow: 0 0 15px grey;
     animation-name: activeSelection;
     animation-iteration-count: infinite;
-    animation-duration: .5s;
+    animation-duration: .95s;
     animation-timing-function: linear;
 }
 
@@ -343,4 +346,19 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 30px;
+}
+
+.social-link {
+    color: white;
+}
+
+.social-link:hover {
+    color: white;
 }

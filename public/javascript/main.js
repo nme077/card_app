@@ -48,13 +48,6 @@ $('#delete_button').on('click', (e) => {
     })
 });
 
-// Print button
-$('#print-btn').on('click', (e) => {
-    $('.page').removeClass('page-transform');
-    $('.page').addClass('page-transform');
-    window.print();
-});
-
 // Handle file input label
 $('.custom-file-input').change(function() {
     //Update file name in text field
@@ -207,4 +200,27 @@ function removeChildNodeByClass(parent, className) {
             return parent.removeChild(child);
         }
     }
+}
+
+// Print button
+$('#print-btn').on('click', (e) => {
+    $('.page').removeClass('page-transform');
+    $('.page').addClass('page-transform');
+    printPDF();
+    //window.print();
+});
+
+function printPDF () {
+    const domElement = document.querySelector('.page');
+
+        
+    var opt = {
+        margin: [-8, 0, -9, 0],
+        filename:     'MyCard.pdf',
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { scale: 6, allowTaint : false, useCORS: true, windowHeight: '11in'},
+        jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' }
+      };
+
+    html2pdf(domElement, opt);
 }
