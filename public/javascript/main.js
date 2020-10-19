@@ -1,18 +1,34 @@
 // Resize page to fit window
 const page = document.querySelector('.page');
 
+// Size card on page load and define padding on page container
 $(document).ready(() => {
     if(page !== null) {
         resizeCard();
     }
+    pagePlacement();
 });
 
+// Resize card on window resize
 $(window).resize(() => {
     if(page !== null) {
         resizeCard();
         resizePlaceholder();
     }
 });
+
+function pagePlacement() {
+    const header = document.querySelector('.navbar');
+    const container = document.querySelector('.content-wrap');
+    console.log(header)
+    if(!header) {
+        container.style.paddingTop = 0;
+        console.log('no padding')
+    } else {
+        console.log('padding added')
+        container.style.paddingTop = '6.5rem';
+    }
+};
 
 function resizeCard() {
     const ratio = 11/8.5; // Standard sheet of paper
@@ -21,6 +37,7 @@ function resizeCard() {
 
     const fontSize = .04 * width
     $('.page input[type=text]').css('font-size', `${fontSize}px`);
+    $('#company-credit-logo').css('width', `${.07 * width}px`);
     $('.page').css('height', `${height}px`);
 };
 
@@ -30,10 +47,6 @@ function resizePlaceholder() {
         $('.placeholder').css('font-size', `${width}px`);
     };
 };
-
-$('.card-name').bind('contextmenu', () => {
-    return false;
-});
 
 // Confirm delete
 $('#delete_button').on('click', (e) => {
@@ -114,7 +127,7 @@ function clickEnd(e) {
     removeSelection();
 };
 
-// Remove image selection if clicking away
+// Remove image selection when clicking away from photo
 window.addEventListener('click', (e) => {
     if(e.target.nodeName !== 'IMG') {
         removeSelection();
@@ -158,23 +171,31 @@ function addPlaceholderImg() {
 };
 
 // Handle save button
-  $("#save").on('click', function(e) {
+  $("#save").on('click', async function(e) {
     const id = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
     const images = document.querySelectorAll('.card-image');
-    const messagesNodeList = document.querySelectorAll('.message');
-    
+    const messagesNodeList = document.querySelectorAll('.message')
+    const saveButton = document.querySelector('#save');
+    const originalSaveButtonHTML = saveButton.innerHTML;
+    const loadingSpinner = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+    const saveDialog = document.querySelector('#save-success');
+    let imageUrlArr = [];
     let messages = [];
+    
     for(let message of messagesNodeList) {
         messages.push(message.value);
     }
 
-    let imageUrlArr = [];
-    
     for(let image of images) {
         imageUrlArr.push(image.src.replace(/.*(?=\/uploads)/, ''));
     }
 
-   axios({
+    // Initialize loading indicator
+    let isLoading = true;
+    loadingIndicator(isLoading, saveButton, originalSaveButtonHTML, loadingSpinner);
+
+    // HTTP request
+    axios({
         method: 'POST',
         withCredentials: true,
         credentials: "same-origin",
@@ -183,8 +204,37 @@ function addPlaceholderImg() {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
+    }).then((res) => {
+        // Remove loading spinner
+        isLoading = false;
+        loadingIndicator(isLoading, saveButton, originalSaveButtonHTML, loadingSpinner);
+        
+        // Show save success message
+        if(!saveDialog) {
+            $('<div class="d-inline" id="save-success">Card saved!</div>').insertBefore('#save-button-group');
+        }
+        setTimeout(() => {
+            $('#save-success').fadeOut("slow", () => {$('#save-success').remove()})
+        },5000);
+    }).catch((res) => {
+        // Show error message
+        if(!saveDialog) {
+            $('<div class="d-inline" id="save-success">Error, try again</div>').insertBefore('#save-button-group');
+        }
+        setTimeout(() => {
+            $('#save-success').fadeOut("slow", () => {$('#save-success').remove()})
+        },5000);
     });
   });
+
+  // Handle loading indicator
+function loadingIndicator(isLoading, outerHTML, originalHTML, loadingHTML) {
+    if(isLoading === true) {
+        outerHTML.innerHTML = loadingHTML;
+    } else {
+        outerHTML.innerHTML = originalHTML;
+    }
+}
 
 
 // Fadeout flash messages
@@ -212,15 +262,35 @@ $('#print-btn').on('click', (e) => {
 
 function printPDF () {
     const domElement = document.querySelector('.page');
+    const fileName = document.querySelector('#card-title').textContent;
+    const outerHTML = document.querySelector('#options-button');
+    const originalHTML = outerHTML.innerHTML;
+    const loadingSpinner = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
 
-        
     var opt = {
         margin: [-8, 0, -9, 0],
-        filename:     'MyCard.pdf',
+        filename:     fileName,
         image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 6, allowTaint : false, useCORS: true, windowHeight: '11in'},
+        html2canvas:  { scale: 6, allowTaint : false, useCORS: true, windowHeight: 279.4},
         jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' }
       };
 
-    html2pdf(domElement, opt);
+    let isLoading = true;
+    loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
+
+    window.scrollTo(0,0)
+    
+    html2pdf(domElement, opt).then(() => {
+        isLoading = false;
+        loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
+    }).catch(() => {
+        isLoading = false;
+        loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
+        if(!saveDialog) {
+            $('<div class="d-inline" id="save-success">Error, try again</div>').insertBefore('#save-button-group');
+        }
+        setTimeout(() => {
+            $('#save-success').fadeOut("slow", () => {$('#save-success').remove()})
+        },5000);
+    });
 }

@@ -15,7 +15,8 @@ const express = require("express"),
       mongodb = require('mongodb'),
       flash = require('connect-flash'),
       dotenv = require('dotenv').config(),
-      multer = require('multer');
+      multer = require('multer'),
+      cors = require('cors');
 
 // Initialize express
 const app = express();

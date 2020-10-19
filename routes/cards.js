@@ -9,7 +9,7 @@ const express = require('express'),
       { runInNewContext } = require("vm"),
       middleware = require('../middleware'),
       multer = require('multer'),
-      cloudinary = require('cloudinary').v2;
+      cloudinary = require('cloudinary').v2
 
 cloudinary.config({
     cloud_name:  process.env.CLOUD_NAME,
@@ -29,6 +29,15 @@ router.get('/', middleware.isLoggedIn, (req, res) => {
     Card.find({}, (err, cards) => {
         // Show only cards created by the current user
         const userCards = cards.filter(card => card.user.id.equals(req.user._id));
+
+        // Update number of cards a user has
+        let numOfCards = userCards.length;
+        User.findByIdAndUpdate(req.user._id, {numOfCards}, (err, user) => {
+            if(err) {
+                req.flash('error', 'Error, please try again');
+                res.redirect('back');
+            }
+        });
 
         if(err) {
             req.flash('Something went wrong!')
@@ -54,7 +63,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 		username: req.user.username
     };
     const currentDate = new Date();
-    const dateCreated = `${currentDate.getMonth()}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+    const dateCreated = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
     // Save the card data to the database
     Card.create(req.body.card, (err, createdCard) => {
         if(err) {
@@ -108,8 +117,7 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
 
 function updateCard(req, card) {
     const images = JSON.stringify(String(req.body.card.image)).replace(/"/g,'').split(',');
-    const messages = req.body.card.message; 
-    console.log(images);
+    const messages = req.body.card.message;
 
     // initialize arrays
     card.images = [];
@@ -198,7 +206,6 @@ router.post('/image/upload', middleware.isLoggedIn, upload.single("imageUpload")
     
         Image.create(fileToSave, (err, uploadedImage) => {
             if(err) {
-                console.log(err);
                 req.flash('error', 'Something went wrong');
                 res.redirect('back');
             } else {
@@ -220,7 +227,7 @@ router.delete('/image/:id/:file_id', middleware.isLoggedIn, function (req, res) 
         } else {
             if(imageToDelete.user.id.equals(req.user._id)) {
                 // Delete from server
-                cloudinary.uploader.destroy(req.params.file_id, function(err, result) { console.log(result) });
+                cloudinary.uploader.destroy(req.params.file_id, function(err, result) { });
                 req.flash('success', 'Photo deleted!');
                 res.redirect('back');
             } else {

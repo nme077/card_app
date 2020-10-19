@@ -35,11 +35,6 @@ body, html {
     background-color: #e6e6e6;
 }
 
-.main {
-    margin-top: 80px;
-    padding-bottom: 2.5rem;
-}
-
 .page-container {
     position: relative;
     min-height: 100vh;
@@ -87,6 +82,33 @@ a:hover {
 
 .nav-link {
     font-size: 1.25em;
+    margin-right: 15px;
+}
+
+.dropdown-menu-right {
+    background-color: var(--navbar-color);
+    padding-bottom: 0;
+}
+
+.user-menu-item, .user-menu-item:visited {
+    font-size: 1.25em;
+    color: grey;
+    width: 100%;
+}
+
+.user-menu-item:hover {
+    color: grey;
+    background-color: grey;
+}
+
+#logout-button {
+    color: rgb(199, 68, 68);
+    background: none;
+    border: none;
+}
+
+#signedInName {
+    pointer-events: none;
 }
 
 .navbar-toggler {
@@ -115,7 +137,7 @@ a:hover {
 }
 
 button.bottomNav, button.topNav, a.topNav {
-    color: white;
+    color: black;
     background: none;
     border: none;
     border-radius: 0 !important;
@@ -125,10 +147,6 @@ button.bottomNav, button.topNav, a.topNav {
     transition: all 100ms;
     -webkit-transition: all 100ms;
     -moz-transition: all 100ms;
-}
-
-#tutorial-btn:hover {
-    color: gray;
 }
 
 /* Card screen */
@@ -145,6 +163,18 @@ button.bottomNav, button.topNav, a.topNav {
     box-shadow: 0 0 5px grey;
     font-family: 'Arial Black', sans-serif;
   }
+
+#company-credit {
+    bottom: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+#company-credit-logo {
+    width: 57px;
+}
 
 #card-name-input {
     background: none;
@@ -168,13 +198,9 @@ img {
     max-height: 100%;
 }
 
-/* Card List */
-#card-list {
-    margin-top: 100px;
-}
-
 .list-group {
     padding-right: 0 !important;
+    margin-bottom: 30px;
 }
 
 /* Landing page */
@@ -291,13 +317,25 @@ img {
 .alert-container{
     position: fixed;
     bottom: 0;
-    z-index: 1;
+    z-index: 15;
     margin: auto;
     max-width: fit-content;
 }
 
 .alert {
     font-size: 1.2em;
+}
+
+#save-success {
+    margin: 2rem;
+    line-height: 2rem;
+}
+
+#save-button-group {
+    position: fixed;
+    top: 60px;
+    right: 15%;
+    z-index: 5;
 }
 
 .draggableImage {
@@ -338,7 +376,7 @@ img {
     box-shadow: 0 0 15px grey;
     animation-name: activeSelection;
     animation-iteration-count: infinite;
-    animation-duration: .95s;
+    animation-duration: .8s;
     animation-timing-function: linear;
 }
 
@@ -360,14 +398,16 @@ img {
 }
 
 footer {
+    z-index: 10;
     position: absolute;
     display: block;
     bottom: 0;
     width: 100%;
-    height: 6.2rem; 
+    height: 7rem; 
     text-align: center;
-    background-color:  #202020;
+    background-color:  #787878;
     color: white;
+    padding-top: 10px;
 }
 
 .social-link {

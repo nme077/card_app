@@ -1,18 +1,4 @@
 <%- include('./partials/header.ejs') %>
-<div class="btn-group dropleft float-right d-block">
-    <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-tools"></i>
-    </button>
-    <div class="dropdown-menu">
-        <!-- Dropdown menu links -->
-        <a class="dropdown-item" id="print-btn">Save as PDF</a>
-        <div class="dropdown-divider"></div>
-        <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
-            <button class="dropdown-item submit text-danger" type="submit" data-toggle="modal" data-target="#deleteModal" id="delete_button">Delete</button>
-        </form>
-      </div>
-</div>
-
   
   <!-- Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -39,11 +25,32 @@
 
   <div id="form1" id="card-content-input">
     <h3 class="mt-5 pt-5 d-inline" id="card-title"><strong><%= card.name %></strong></h3>
-    <button class="btn btn-primary float-right" id="save">Save card</button>
+
+
+    <div class="btn-group float-right" role="group" aria-label="Options" id="save-button-group">
+      <!--First button-->
+      <div class="btn-group dropleft d-block" id="options">
+        <button type="button" id="options-button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-tools"></i>
+        </button>
+        <div class="dropdown-menu">
+            <!-- Dropdown menu links -->
+            <a class="dropdown-item" id="print-btn">Save as PDF</a>
+            <div class="dropdown-divider"></div>
+            <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
+                <button class="dropdown-item submit text-danger" type="submit" data-toggle="modal" data-target="#deleteModal" id="delete_button">Delete</button>
+            </form>
+          </div>
+      </div>
+      <!--Second button-->
+      <button class="btn btn-primary" id="save"><i class="fas fa-save"></i></button>
+    </div>
+
     <!--Page to print-->
     <div class="page">
         <div class="topofpage d-block">
             <!--Insert card layout-->
+            <div id="company-credit"><img src="/images/Monochrome on Transparent.png" id="company-credit-logo">  </div>
         </div>
         <div class="bottomofpage d-block">
             <%- include(`./card_templates/${card.template_choice}`) %>
