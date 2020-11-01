@@ -10,7 +10,7 @@
     <div class="form-group" id="template_choice">
         <select class="form-control" name="card[template_choice]"  required>
             <option value="" disabled selected>--Select a template--</option>
-            <% templateArr.forEach(template => { %>
+            <% templateData.forEach(template => { %>
                 <option value="<%= template.fileName %>"><%= template.name %></option>
             <% }) %>
         </select>

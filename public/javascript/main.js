@@ -20,19 +20,17 @@ $(window).resize(() => {
 function pagePlacement() {
     const header = document.querySelector('.navbar');
     const container = document.querySelector('.content-wrap');
-    console.log(header)
+   
     if(!header) {
         container.style.paddingTop = 0;
-        console.log('no padding')
     } else {
-        console.log('padding added')
         container.style.paddingTop = '6.5rem';
     }
 };
 
-function resizeCard() {
+function resizeCard(printDiv) {
     const ratio = 11/8.5; // Standard sheet of paper
-    const width = $('.page').css('width').replace(/px/,'');
+    const width = printDiv ? 816 : $('.page').css('width').replace(/px/,''); // Width of page container
     const height = Math.floor(width * ratio);
 
     const fontSize = .04 * width
@@ -190,6 +188,12 @@ function addPlaceholderImg() {
         imageUrlArr.push(image.src.replace(/.*(?=\/uploads)/, ''));
     }
 
+    const cardBg = document.querySelector('.bottomofpage');
+    const text = document.querySelector('.message');
+
+    const cardBgColor = cardBg.style.background || '';
+    const textColor = text.style.color;
+
     // Initialize loading indicator
     let isLoading = true;
     loadingIndicator(isLoading, saveButton, originalSaveButtonHTML, loadingSpinner);
@@ -200,7 +204,7 @@ function addPlaceholderImg() {
         withCredentials: true,
         credentials: "same-origin",
         url: `/cards/${id}?_method=PUT`,
-        data: `card[image]=${imageUrlArr}&card[message]=${messages}`,
+        data: `card[image]=${imageUrlArr}&card[message]=${messages}&card[bottomFrontBackgroundColor]=${cardBgColor}&card[textColor]=${textColor}`,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
@@ -271,18 +275,20 @@ function printPDF () {
         margin: [-8, 0, -9, 0],
         filename:     fileName,
         image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 6, allowTaint : false, useCORS: true, windowHeight: 279.4},
+        html2canvas:  { scale: 6, allowTaint : false, useCORS: true, onclone: onClone(true)},
         jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' }
       };
 
     let isLoading = true;
     loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
 
-    window.scrollTo(0,0)
+    //window.scrollTo(0,0)
     
     html2pdf(domElement, opt).then(() => {
         isLoading = false;
         loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
+        // Resize the card for device after printing
+        onClone(false);
     }).catch(() => {
         isLoading = false;
         loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
@@ -293,4 +299,45 @@ function printPDF () {
             $('#save-success').fadeOut("slow", () => {$('#save-success').remove()})
         },5000);
     });
+};
+
+function onClone(printDiv) {
+    resizeCard(printDiv);
+    resizePlaceholder();
+}
+
+// Background color selector
+if(window.location.pathname.includes('/edit')) {
+    const bgColorList = document.querySelector('.background-color-list').childNodes;
+    bgColorList.forEach((node) => {
+        const classNames = node.className;
+        if(classNames && classNames.includes('bg-color')) {
+            node.addEventListener('click', changeCardBackgroundColor);
+        }
+    });
+
+    // Text color selector
+    const textColorList = document.querySelector('.text-color-list').childNodes;
+
+    textColorList.forEach((node) => {
+        const classNames = node.className;
+        if(classNames && classNames.includes('text-color')) {
+            node.addEventListener('click', changeTextColor);
+        }
+    });
+
+    function changeTextColor() {
+        const color = this.style.color || 'white';
+        const text = document.querySelector('.message');
+
+        text.style.color = color;
+    }
+
+
+    function changeCardBackgroundColor() {
+        const color = this.style.color;
+        const cardBackground = document.querySelector('.bottomofpage');
+
+        cardBackground.style.background = color;
+    }
 }

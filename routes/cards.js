@@ -51,7 +51,7 @@ router.get('/', middleware.isLoggedIn, (req, res) => {
 
 // New card
 router.get('/new', middleware.isLoggedIn, (req, res) => {
-    res.render('create', {templateArr: templateData});
+    res.render('create');
 });
 
 // Create new card

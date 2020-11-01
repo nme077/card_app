@@ -6,7 +6,7 @@ middlewareObj.isLoggedIn = function(req, res, next) {
 		return next();
 	}
 	req.flash('error', 'You must be logged in to do that.')
-	res.redirect('/register');
+	res.redirect('/login');
 };
 
 middlewareObj.allowedFileType = function(req, res, next) {

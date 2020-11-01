@@ -1,17 +1,35 @@
 <%- include('./partials/header.ejs') %>
 
-<div class="container main">
-    <div class="jumbotron">
-        <h1 class="display-4">How to use Cards</h1>
-        <hr class="my-4">
-        <p><strong>1.</strong> Name your card and choose a template</p>
-        <p><strong>2.</strong> Upload a photo or choose one from your library</p>
-        <p><strong>3.</strong> Click the photo you want to insert into your card</p>
-        <p><strong>4.</strong> Click the desired field on the card to insert the photo</p>
-        <p><strong>5.</strong> Press "Save card"</p>
-        <p><strong>6.</strong> To print the card, select "Save as PDF" in the options menu <em>(NOTE: This feature is not supported on mobile)</em></p>
-        <p><strong>7.</strong> Enjoy your card!</p>
+<div class="main">
+  <div class="jumbotron text-center bg-transparent">
+    <h2 class="display-4">About Cards</h1>
+    <hr class="my-4">
+    <p class="lead">Cards is a simple way to create and print a greeting card for any occasion!</p>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="card col-md-4 col-sm-12 p-3">
+        <div class="card-body">
+          <h5 class="display-5">Step 1</h5>
+          <p class="lead">Name your card and choose one of <%= templateData.length %> simple templates.</p>
+        </div>
       </div>
+      <div class="card col-md-4 col-sm-12 p-3">
+        <div class="card-body">
+          <h5 class="display-5">Step 2</h5>
+          <p class="lead">Upload a photo or choose one from your library</p>
+        </div>
+      </div>
+      <div class="card col-md-4 col-sm-12 p-3">
+        <div class="card-body">
+          <h5 class="display-5">Step 3</h5>
+          <p class="lead">Insert your photo(s) and message(s). Enjoy the card!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 

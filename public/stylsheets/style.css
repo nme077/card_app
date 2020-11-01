@@ -3,29 +3,7 @@
 }
 
 /* Print rules */
-@media print {
-    body {
-      visibility: hidden;
-    }
-    #image-input-container, #card-title, nav {
-        display: none;
-    }
-    form, .main {
-        margin-top: 0 !important;
-    }
-    .page * {
-      visibility: visible;
-    }
-    .page {
-        top: 85px; /* Same as .main margin*/
-        left: 10px;
-        margin: 0 auto !important;
-        visibility: visible;
-        font-size: 32.64px;
-        height: 1056px;
-        transform: scale(1.23);
-    }
-  }
+.html2canvas-container { width: 215.9mm !important; height: 279.4mm !important; }
 
 /* Standard CSS */
 body, html {
@@ -38,6 +16,12 @@ body, html {
 .page-container {
     position: relative;
     min-height: 100vh;
+}
+
+.container-full-width {
+    max-width: 100% !important;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .content-wrap {
@@ -61,6 +45,8 @@ a:hover {
     box-shadow: none;
 }
 
+/** Nav Bar **/
+
 #nav-logo {
     width: 8em;
 }
@@ -69,20 +55,14 @@ a:hover {
     max-width: 200px;
 }
 
-.container-full-width {
-    max-width: 100% !important;
-    padding-right: 0;
-    padding-left: 0;
+.nav-link {
+    font-size: 1.25em;
+    margin-right: 15px;
 }
 
 .page input[type=text] {
     background: none; 
     border: none;
-}
-
-.nav-link {
-    font-size: 1.25em;
-    margin-right: 15px;
 }
 
 .dropdown-menu-right {
@@ -149,6 +129,11 @@ button.bottomNav, button.topNav, a.topNav {
     -moz-transition: all 100ms;
 }
 
+.learn-more-btn {
+    position: relative;
+    z-index: 1;
+}
+
 /* Card screen */
 .page {
     width: 215.9mm;
@@ -162,7 +147,93 @@ button.bottomNav, button.topNav, a.topNav {
     background-color: white;
     box-shadow: 0 0 5px grey;
     font-family: 'Arial Black', sans-serif;
-  }
+}
+
+#save-success {
+    margin: 2rem;
+    line-height: 2rem;
+}
+
+#save-button-group {
+    position: fixed;
+    top: 60px;
+    right: 15%;
+    z-index: 5;
+}
+
+.draggableImage {
+    position: relative;
+    cursor: pointer;
+    z-index: 0;
+    padding: 0;
+    width: 100%;
+    max-height: 100%;
+    margin: 10px;
+}
+
+.delete-photo-btn, .delete-photo-form {
+    position: absolute;
+    z-index: 1;
+    left: .7em;
+    top: .2em;
+    font-size: 1em;
+}
+
+.bg-color:hover, .text-color:hover {
+    transform: scale(1.1);
+}
+
+.bg-color, .text-color {
+    cursor: pointer;
+}
+
+.background-color-list, .text-color-list {
+    user-select: none; /* Standard */
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+}
+
+.photo-menu {
+    display: none;
+}
+
+.delete-photo-btn:hover {
+    transform: scale(1.1);
+}
+
+@keyframes activeSelection {
+    0%   {transform: rotate(2deg); }
+    15%  {transform: rotate(-2deg); }
+    30%  {transform: rotate(2deg); }
+    75%  {transform: rotate(-2deg); }
+    100% {transform: rotate(2deg); }
+}
+
+.selected-img {
+    box-shadow: 0 0 15px grey;
+    animation-name: activeSelection;
+    animation-iteration-count: infinite;
+    animation-duration: .8s;
+    animation-timing-function: linear;
+}
+
+.dropzone-active {
+    opacity: .5;
+    cursor: pointer;
+    border: 2px dashed gray;
+}
+
+.empty {
+    background-color: lightgray;
+}
+
+.placeholder {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 #company-credit {
     bottom: 0;
@@ -215,7 +286,7 @@ img {
     z-index: 1;
 }
 
-#landingBtn {
+.landingBtn {
     background: none !important;
     border: none !important;
     color: black;
@@ -225,8 +296,13 @@ img {
     transition: all 0.2s;
 }
 
-#landingBtn:hover {
+.landingBtnSmall {
+    font-size: 1.5em;
+}
+
+.landingBtn:hover {
     transform: scale(1.1);
+    color: grey;
 }
 
 #landingNavIcon {
@@ -307,11 +383,11 @@ img {
 #register-form, #login-form {
     position: relative;
     z-index: 1;
-    padding-top: 6em;
+    padding-top: 4em;
 }
 
 #login-form {
-    padding-top: 11em;
+    padding-top: 9em;
 }
 
 .alert-container{
@@ -324,77 +400,6 @@ img {
 
 .alert {
     font-size: 1.2em;
-}
-
-#save-success {
-    margin: 2rem;
-    line-height: 2rem;
-}
-
-#save-button-group {
-    position: fixed;
-    top: 60px;
-    right: 15%;
-    z-index: 5;
-}
-
-.draggableImage {
-    position: relative;
-    cursor: pointer;
-    z-index: 0;
-    padding: 0;
-    width: 100%;
-    max-height: 100%;
-    margin: 10px;
-}
-
-.delete-photo-btn, .delete-photo-form {
-    position: absolute;
-    z-index: 1;
-    left: .7em;
-    top: .2em;
-    font-size: 1em;
-}
-
-.photo-menu {
-    display: none;
-}
-
-.delete-photo-btn:hover {
-    transform: scale(1.1);
-}
-
-@keyframes activeSelection {
-    0%   {transform: rotate(2deg); }
-    15%  {transform: rotate(-2deg); }
-    30%  {transform: rotate(2deg); }
-    75%  {transform: rotate(-2deg); }
-    100% {transform: rotate(2deg); }
-}
-
-.selected-img {
-    box-shadow: 0 0 15px grey;
-    animation-name: activeSelection;
-    animation-iteration-count: infinite;
-    animation-duration: .8s;
-    animation-timing-function: linear;
-}
-
-.dropzone-active {
-    opacity: .5;
-    cursor: pointer;
-    border: 2px dashed gray;
-}
-
-.empty {
-    background-color: lightgray;
-}
-
-.placeholder {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 footer {

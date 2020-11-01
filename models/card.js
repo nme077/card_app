@@ -11,6 +11,8 @@ const cardSchema = new mongoose.Schema({
     template_choice: String,
     name: String,
     dateCreated: String,
+    bottomFrontBackgroundColor: String,
+    textColor: String,
     images: [
         {
             _id: mongoose.Schema.Types.ObjectId,

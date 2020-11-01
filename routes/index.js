@@ -5,6 +5,7 @@ const express = require('express'),
       router = express.Router(),
       Card = require('../models/card'),
       User = require('../models/user'),
+      templateData = require('../templateData'),
       middleware = require('../middleware');
 
 router.use((req, res, next) => {
@@ -71,7 +72,7 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/tutorial', (req, res) => {
-    res.render('tutorial');
+    res.render('tutorial', {templateData});
 });
 
 

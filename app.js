@@ -18,7 +18,7 @@ const express = require("express"),
       multer = require('multer'),
       cors = require('cors');
 
-// Initialize express
+// Initialize expressf
 const app = express();
 
 // CONNECT TO MONGODB
