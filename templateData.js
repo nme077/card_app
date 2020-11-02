@@ -15,6 +15,13 @@ const templateData = [
         name: '2 photos, 1 message',
         numOfImages: 2,
         numOfText: 1
+    },
+    {
+        fileName: 'template_3',
+        filePath: './card_templates/template_3.ejs',
+        name: '4 photos, 1 message',
+        numOfImages: 4,
+        numOfText: 1
     }
 ];
 

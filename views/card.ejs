@@ -84,7 +84,7 @@
     </div>
   </div>
 
-  <h4 class="text-center">Photo Gallery</h4>
+  <h4 class="text-center">Photos <span class="h6 text-muted"><%= numOfPhotos %> / 12</span></h4>
   <!-- Image upload -->
   <div class="container col-sm-10 col-md-8 mb-3" id="image-upload-container">
     <form id="form2" action="/cards/image/upload" method="post" enctype="multipart/form-data">
@@ -97,8 +97,11 @@
     </form>
   </div>
   
-  <div class="container">
-    <div class="row">
+  <button class="btn btn-secondary float-right" id="collapse-btn" type="button" data-toggle="collapse" data-target="#photo-gallery" aria-expanded="false" aria-controls="collapseExample">
+    <i class="fas fa-caret-down collapse-icon"></i>
+  </button>
+  <div class="container pb-3 mb-5">
+    <div class="row collapse show" id="photo-gallery">
       <% for(let file of files) { %>
           <div class="imageDiv col-4 col-lg-3 col-xl-2">
               <img class="draggableImage" crossorigin="anonymous" src="<%= file.href %>" draggable="true">

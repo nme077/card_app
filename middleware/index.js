@@ -11,10 +11,11 @@ middlewareObj.isLoggedIn = function(req, res, next) {
 
 middlewareObj.allowedFileType = function(req, res, next) {
 	const mimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/ief', 'image/pipeg', 'image/svg+xml', 'image/tiff'];
+	const maxPhotos = 12;
 
 	if(mimeTypes.includes(req.file.mimetype)) {
-		if(req.user.numOfPhotos >= 10) {
-			req.flash('error', 'Limit of 10 photos allowed, please delete some to make room for more!');
+		if(req.user.numOfPhotos >= maxPhotos) { // Update max photos number on photo gallery if changed
+			req.flash('error', `Limit of ${maxPhotos} photos allowed, please delete some to make room for more!`);
 			return res.redirect('back');
 		}
 		next();

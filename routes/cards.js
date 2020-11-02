@@ -103,7 +103,7 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
                             }
                         });
 
-                        res.render('card', {card: foundCard, files: userImages});
+                        res.render('card', {card: foundCard, files: userImages, numOfPhotos});
                     }
                 });
                 
@@ -153,7 +153,7 @@ router.put('/:id', middleware.isLoggedIn, (req, res) => {
             if(card.user.id.equals(req.user._id)) {
                 updateCard(req, card);
 
-                req.flash('success', 'Changes successfully saved');
+                req.flash('success', 'Card saved!');
                 res.redirect(`/cards/${card._id}/edit`);
             } else {
                 res.redirect('back');

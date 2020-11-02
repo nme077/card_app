@@ -1,0 +1,25 @@
+<div class="col-12 text-center" style="height: 37.5%;">
+    <div class="dropzone mx-auto float-left" style="height: 90%; width: 45%; margin-top: 5%; margin-left: 4% !important; display: inline-block; vertical-align: middle">
+       <img class="card-image" crossorigin="anonymous" src="<%= card.images[0] !== undefined ? card.images[0].image : '' %>" style="max-width: 100%;">
+       <i class="far fa-image placeholder"></i>
+    </div>
+    <div class="dropzone mx-auto float-right" style="height: 90%; width: 45%; margin-top: 5%; margin-right: 4% !important; display: inline-block; vertical-align: middle">
+       <img class="card-image" crossorigin="anonymous" src="<%= card.images[1] !== undefined ? card.images[1].image : '' %>" style="max-width: 100%;">
+       <i class="far fa-image placeholder"></i>
+    </div>
+ </div>
+ <div class="col-12 text-center" style="height: 37.5%;">
+    <div class="dropzone mx-auto float-left" style="height: 90%; width: 45%; margin-top: 1%; margin-left: 4% !important; display: inline-block; vertical-align: middle">
+       <img class="card-image" crossorigin="anonymous" src="<%= card.images[0] !== undefined ? card.images[2].image : '' %>" style="max-width: 100%;">
+       <i class="far fa-image placeholder"></i>
+    </div>
+    <div class="dropzone mx-auto float-right" style="height: 90%; width: 45%; margin-top: 1%; margin-right: 4% !important; display: inline-block; vertical-align: middle">
+       <img class="card-image" crossorigin="anonymous" src="<%= card.images[1] !== undefined ? card.images[3].image : '' %>" style="max-width: 100%;">
+       <i class="far fa-image placeholder"></i>
+    </div>
+ </div>
+ 
+ 
+  <div class="col-12 text-center">
+     <input type="text" class="text-center message" placeholder="Type a message!" style="margin-top: 2%; width: 100%; padding-bottom: 5%; color: <%= card.textColor %>" name="card[message]" value="<%= card.messages[0].message %>">
+  </div>

@@ -75,12 +75,12 @@ $('.custom-file-input').change(function() {
 // Adding images to cards
 /////////////////////////
 
-const draggableImages = document.querySelectorAll('.draggableImage');
+const clickableImages = document.querySelectorAll('.draggableImage');
 const imageContainers = document.querySelectorAll('.dropzone');
-let dragged;
+let selected;
 
 // Event listeners
-for (let image of draggableImages) {
+for (let image of clickableImages) {
     image.addEventListener('click', clickStart);
 };
 
@@ -95,16 +95,20 @@ function clickStart(e) {
     $('.dropzone').addClass('dropzone-active');
     $(this).addClass('selected-img');
     // Save clicked element
-    dragged = e.target;
+    selected = e.target;
 
     // Photo menu
+    addPhotoOptions(e)
+};
+
+function addPhotoOptions(e) {
     const children = e.target.parentNode.childNodes;
     
     for(const child of children) {
         if(child.classList && child.classList.contains('photo-menu'))
         return child.style.display = 'inline'
     };
-};
+}
 
 function clickEnd(e) {
     e.preventDefault();
@@ -117,8 +121,8 @@ function clickEnd(e) {
         }
     };
     // Add image source when not undefined
-    if(dragged) {
-        image.src = dragged.src;
+    if(selected) {
+        image.src = selected.src;
         addPlaceholderImg();
     }
 
@@ -133,14 +137,14 @@ window.addEventListener('click', (e) => {
 });
 
 function removeSelection() {
-    dragged = '';
+    selected = '';
     $('.selected-img').removeClass('selected-img');
     $('.dropzone').removeClass('dropzone-active');
     $('.photo-menu').css('display','none');
 };
 
 // Handle image placeholder
-
+// Insert placeholder images on load
 addPlaceholderImg();
 
 function addPlaceholderImg() {
@@ -169,7 +173,7 @@ function addPlaceholderImg() {
 };
 
 // Handle save button
-  $("#save").on('click', async function(e) {
+$("#save").on('click', async function(e) {
     const id = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
     const images = document.querySelectorAll('.card-image');
     const messagesNodeList = document.querySelectorAll('.message')
@@ -180,23 +184,27 @@ function addPlaceholderImg() {
     let imageUrlArr = [];
     let messages = [];
     
+    // create array of messages
     for(let message of messagesNodeList) {
         messages.push(message.value);
     }
 
+    // create array of images
     for(let image of images) {
         imageUrlArr.push(image.src.replace(/.*(?=\/uploads)/, ''));
     }
 
+    // Card properties to save
     const cardBg = document.querySelector('.bottomofpage');
-    const text = document.querySelector('.message');
-
     const cardBgColor = cardBg.style.background || '';
+
+    const text = document.querySelector('.message');
     const textColor = text.style.color;
 
     // Initialize loading indicator
     let isLoading = true;
     loadingIndicator(isLoading, saveButton, originalSaveButtonHTML, loadingSpinner);
+
 
     // HTTP request
     axios({
@@ -215,21 +223,31 @@ function addPlaceholderImg() {
         
         // Show save success message
         if(!saveDialog) {
-            $('<div class="d-inline" id="save-success">Card saved!</div>').insertBefore('#save-button-group');
+            $(`<div class="container alert-container">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Card Saved!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>	
+            </div>`).insertBefore('footer');
+            fadeOutFlashMessage();
         }
-        setTimeout(() => {
-            $('#save-success').fadeOut("slow", () => {$('#save-success').remove()})
-        },5000);
-    }).catch((res) => {
+}).catch((res) => {
         // Show error message
         if(!saveDialog) {
-            $('<div class="d-inline" id="save-success">Error, try again</div>').insertBefore('#save-button-group');
+            $(`<div class="container alert-container">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Error, please try again
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>	
+            </div>`).insertBefore('footer');
+            fadeOutFlashMessage();
         }
-        setTimeout(() => {
-            $('#save-success').fadeOut("slow", () => {$('#save-success').remove()})
-        },5000);
-    });
-  });
+    }); 
+});
 
   // Handle loading indicator
 function loadingIndicator(isLoading, outerHTML, originalHTML, loadingHTML) {
@@ -240,6 +258,11 @@ function loadingIndicator(isLoading, outerHTML, originalHTML, loadingHTML) {
     }
 }
 
+function fadeOutFlashMessage() {
+    setTimeout(() => {
+        $('.alert-container').fadeOut("slow")
+    },10000);
+}
 
 // Fadeout flash messages
 setTimeout(() => {
@@ -261,7 +284,6 @@ $('#print-btn').on('click', (e) => {
     $('.page').removeClass('page-transform');
     $('.page').addClass('page-transform');
     printPDF();
-    //window.print();
 });
 
 function printPDF () {
@@ -281,8 +303,6 @@ function printPDF () {
 
     let isLoading = true;
     loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
-
-    //window.scrollTo(0,0)
     
     html2pdf(domElement, opt).then(() => {
         isLoading = false;
@@ -308,6 +328,7 @@ function onClone(printDiv) {
 
 // Background color selector
 if(window.location.pathname.includes('/edit')) {
+    // Background color selector
     const bgColorList = document.querySelector('.background-color-list').childNodes;
     bgColorList.forEach((node) => {
         const classNames = node.className;
@@ -325,19 +346,27 @@ if(window.location.pathname.includes('/edit')) {
             node.addEventListener('click', changeTextColor);
         }
     });
-
-    function changeTextColor() {
-        const color = this.style.color || 'white';
-        const text = document.querySelector('.message');
-
-        text.style.color = color;
-    }
-
-
-    function changeCardBackgroundColor() {
-        const color = this.style.color;
-        const cardBackground = document.querySelector('.bottomofpage');
-
-        cardBackground.style.background = color;
-    }
 }
+
+function changeTextColor() {
+    const color = this.style.color || 'white';
+    const text = document.querySelector('.message');
+
+    text.style.color = color;
+}
+
+
+function changeCardBackgroundColor() {
+    const color = this.style.color;
+    const cardBackground = document.querySelector('.bottomofpage');
+
+    cardBackground.style.background = color;
+}
+
+// Rotate collapse icon on click
+function rotateIcon() {
+    $('.collapse-icon').toggleClass('collapsed-btn')
+}
+
+const collapseBtn = document.querySelector('#collapse-btn');
+collapseBtn.addEventListener('click', rotateIcon);
