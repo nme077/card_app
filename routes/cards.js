@@ -1,3 +1,5 @@
+const { default: Axios } = require('axios');
+
 const express = require('express'),
       router = express.Router(),
       Card = require('../models/card'),

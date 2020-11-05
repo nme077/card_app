@@ -1,23 +1,32 @@
 <%- include('./partials/header.ejs') %>
 
-<form action="/cards" method="POST" class="container justify-content-center col-md-6 col-xs-12" id="card-content-input">
 <main class="main">
-    <h1>Create a new Card</h1>
+    <form action="/cards" method="POST" class="container justify-content-center col-md-6 col-lg-4 col-sm-8" id="card-content-input">
+            <h1 class="mb-3">Create a new Card</h1>
 
-    <div class="form-group">
-        <input type="text" class="form-control" placeholder="Name of Card" name="card[name]" required>
-    </div>
-    <div class="form-group" id="template_choice">
-        <select class="form-control" name="card[template_choice]"  required>
-            <option value="" disabled selected>--Select a template--</option>
-            <% templateData.forEach(template => { %>
-                <option value="<%= template.fileName %>"><%= template.name %></option>
-            <% }) %>
-        </select>
-    </div>
+            <div class="form-group">
+                <input type="text" id="card-name" class="form-control" placeholder="Name of Card" name="card[name]" required>
+            </div>
 
+            <div class="form-group" id="template_choice">
+                <select class="form-control d-none" name="card[template_choice]" id="template_list">
+                    <option value="" disabled selected>--Select a template--</option>
+                    <% templateData.forEach(template => { %>
+                        <option value="<%= template.fileName %>"><%= template.name %></option>
+                    <% }) %>
+                </select>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+            <div class="form-group row m-3" id="template_choice">
+                <% templateData.forEach(template => { %>
+                    <div class="template-picker col-6 col-lg-6 mb-2" value="<%= template.fileName %>">
+                        <img class="template-picker-img mw-100" src="/images/template_images/<%= template.fileName %>.png">
+                        <span class="tooltip-text lead"><%= template.name %></span>
+                    </div>
+                <% }) %>
+            </div>
+
+            <button type="submit" id="create-btn" class="btn btn-primary btn-block" disabled>Create Card</button>
+    </form>
 </main>
 <%- include('./partials/footer.ejs') %>

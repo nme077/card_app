@@ -134,6 +134,46 @@ button.bottomNav, button.topNav, a.topNav {
     z-index: 1;
 }
 
+/* Card creation screen */
+  
+.tooltip-text {
+    visibility: hidden;
+    max-width: 100%;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 7px;
+    font-size: 1em;
+
+    /* Position the tooltip */
+    position: absolute;
+    left: 20px;
+    top: 8px;
+    z-index: 1;
+}
+  
+.template-picker-img:hover .tooltip-text {
+    visibility: visible;
+}
+
+.template-picker-img {
+    cursor: pointer;
+}
+
+.template-picker-img:hover {
+    box-shadow: 0 0 5px grey;
+}
+
+#card-content-input {
+    margin-bottom: 50px;
+}
+
+.selected-template {
+    border: 3px solid #007bff;
+    border-radius: 3px;
+}
+
 /* Card screen */
 .page {
     width: 215.9mm;
@@ -435,6 +475,6 @@ footer {
 }
 
 .collapsed-btn {
-    transition-duration: 0.5s;    
+    transition-duration: 0.3s;    
     transform: rotate(180deg);
 }
