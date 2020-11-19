@@ -1,3 +1,5 @@
+$(document).ready(() => {
+
 // Event listeners for card create page
 const templateChoices = document.querySelectorAll('.template-picker');
 
@@ -68,7 +70,7 @@ function resizeCard(printDiv) {
     const height = Math.floor(width * ratio);
 
     const fontSize = .04 * width
-    $('.page input[type=text]').css('font-size', `${fontSize}px`);
+    $('.message').css('font-size', `${fontSize}px`);
     $('#company-credit-logo').css('width', `${.07 * width}px`);
     $('.page').css('height', `${height}px`);
 };
@@ -81,8 +83,15 @@ function resizePlaceholder() {
 };
 
 // Confirm delete
-$('#delete_button').on('click', (e) => {
-    const $form = $('#delete_form');
+$('.delete_button, .delete-btn-index').on('click', (e) => {
+    const $form = $(e.target).closest('form');
+    // Add text in modal
+    if($form[0].action.includes('image')) {
+        $('#item-to-delete').text('photo')
+    } else {
+        $('#item-to-delete').text('card')
+    }
+
     e.preventDefault();
     $('#deleteModal')
     .on('click', '#confirm', () => {
@@ -91,6 +100,49 @@ $('#delete_button').on('click', (e) => {
     $('#cancel').on('click', (e) => {
         e.preventDefault();
     })
+});
+
+// Action menu on all cards screen
+
+$('.card').on('mouseenter', (e) => {
+    hideAllFileMenus(e);
+    insertFileMenu(e);
+});
+
+$('.card').on('mouseleave', (e) => {
+    hideFileMenu(e);
+});
+
+$('.delete-btn-index').on('click', (e) => {
+    hideAllFileMenus(e);
+});
+
+function insertFileMenu(e) {
+    $(e.target).children('.indexFileMenu').css({display: 'inline-flex', opacity: 0}).animate({
+        opacity: 1
+    }, 10);
+};
+
+function hideFileMenu(e) {
+    $(e.target).children('.indexFileMenu').fadeOut(150);
+};
+
+function hideAllFileMenus(e) {
+    $('.indexFileMenu').fadeOut(10);
+}
+
+// Handle toggle of file name input field
+$('.edit-btn-index').on('click', (e) => {
+    $('.card-name.disabled-card-name').addClass('active-card-name').removeClass('disabled-card-name');
+    $('.edit-card-name-input.active-card-name').addClass('disabled-card-name').removeClass('active-card-name');
+
+    const nameText = $(e.target).parent().parent().parent().find('.card-name');
+    const nameInput = $(e.target).parent().parent().parent().find('.edit-card-name-input');
+
+    $(nameText).toggleClass('active-card-name');
+    $(nameText).toggleClass('disabled-card-name');
+    $(nameInput).toggleClass('disabled-card-name');
+    $(nameInput).toggleClass('active-card-name');
 });
 
 // Handle file input label
@@ -208,6 +260,10 @@ function addPlaceholderImg() {
 
 // Handle save button
 $("#save").on('click', async function(e) {
+    updateCard(e);
+});
+
+function updateCard(e) {
     const id = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
     const images = document.querySelectorAll('.card-image');
     const messagesNodeList = document.querySelectorAll('.message')
@@ -281,7 +337,7 @@ $("#save").on('click', async function(e) {
             fadeOutFlashMessage();
         }
     }); 
-});
+}
 
   // Handle loading indicator
 function loadingIndicator(isLoading, outerHTML, originalHTML, loadingHTML) {
@@ -331,7 +387,7 @@ function printPDF () {
         margin: [-8, 0, -9, 0],
         filename:     fileName,
         image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 6, allowTaint : false, useCORS: true, onclone: onClone(true)},
+        html2canvas:  { scale: 6, allowTaint : false, useCORS: true, onclone: onClone(true), letterRendering: true},
         jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' }
       };
 
@@ -358,10 +414,33 @@ function printPDF () {
 function onClone(printDiv) {
     resizeCard(printDiv);
     resizePlaceholder();
+    changeInputText() 
+}
+
+function changeInputText() {
+    const $tagName = $('.message').prop("tagName");
+    // Select the existing input field
+    const $message = $('.message');
+    // Create text field from input fields
+    const attributes = $('.message')[0].attributes;
+
+    if($tagName !== 'DIV') {
+        $message.replaceWith(`<div class="message">${$message.val()}</div>`);
+    } else {
+        $message.replaceWith(`<input type="text" class="message" value="${$message.val()}">`);
+    }
+
+    // Copy attributes of input field
+    for(let i = 0; i < attributes.length; i++) {
+        const name = attributes[i].name;
+        const value = attributes[i].value;
+
+        $('.message').attr(name, value);
+    }
 }
 
 // Background color selector
-if(window.location.pathname.includes('/edit')) {
+if(window.location.pathname.includes('/edit') && window.location.pathname.indexOf('user') !== 1) {
     // Background color selector
     const bgColorList = document.querySelector('.background-color-list').childNodes;
     bgColorList.forEach((node) => {
@@ -404,3 +483,6 @@ function rotateIcon() {
 
 const collapseBtn = document.querySelector('#collapse-btn');
 if(collapseBtn) collapseBtn.addEventListener('click', rotateIcon);
+
+
+});  //Document ready function

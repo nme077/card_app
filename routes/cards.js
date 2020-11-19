@@ -233,7 +233,7 @@ router.delete('/image/:id/:file_id', middleware.isLoggedIn, function (req, res) 
                 req.flash('success', 'Photo deleted!');
                 res.redirect('back');
             } else {
-                req.flash('error', 'You are no permitted to delete this photo');
+                req.flash('error', 'You are not permitted to delete this photo');
                 res.redirect('back');
             }
         }

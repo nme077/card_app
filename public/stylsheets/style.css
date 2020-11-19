@@ -76,13 +76,11 @@ a:hover {
     width: 100%;
 }
 
-.user-menu-item:hover {
-    color: grey;
-    background-color: grey;
-}
-
 #logout-button {
     color: rgb(199, 68, 68);
+}
+
+.user-menu-item, .user-menu-item:hover, .delete-btn-index:hover {
     background: none;
     border: none;
 }
@@ -97,7 +95,8 @@ a:hover {
 
 .navbar-toggler:focus,
 .navbar-toggler:active,
-.navbar-toggler-icon:focus {
+.navbar-toggler-icon:focus,
+.delete-btn-index:focus {
     outline: none;
     box-shadow: none;
 }
@@ -133,6 +132,49 @@ button.bottomNav, button.topNav, a.topNav {
     position: relative;
     z-index: 1;
 }
+
+.delete-btn-index, .edit-btn-index {
+    padding: 0 5px;
+    transition-duration: 80ms;
+    font-size: 1em;
+}
+
+.delete-btn-index:hover, .edit-btn-index:hover {
+    transform: scale(1.1);
+}
+
+.indexFileMenu {
+    position: relative;
+    /* display: inline-flex; Only when hovering */
+    display: none;
+    max-width: 25%;
+    margin: 0;
+    padding-left: 5px;
+}
+
+.edit-card-name-input {
+    max-width: 75%;
+    display: none;
+}
+
+.card-name-group {
+    display: inline-block;
+}
+
+.date-created {
+    display: inline-block;
+    margin: 0;
+}
+
+.active-card-name {
+    display: inline-flex;
+}
+
+.disabled-card-name {
+    display: none;
+}
+
+
 
 /* Card creation screen */
   
@@ -199,9 +241,13 @@ button.bottomNav, button.topNav, a.topNav {
 
 #save-button-group {
     position: fixed;
-    top: 60px;
+    top: 70px;
     right: 15%;
     z-index: 5;
+}
+
+#print-btn {
+    cursor: pointer;
 }
 
 .draggableImage {
@@ -220,6 +266,7 @@ button.bottomNav, button.topNav, a.topNav {
     left: .7em;
     top: .2em;
     font-size: 1em;
+    transition-duration: 80ms;
 }
 
 .bg-color:hover, .text-color:hover {
@@ -313,7 +360,7 @@ img {
 }
 
 .list-group {
-    padding-right: 0 !important;
+    /*padding-right: 0 !important;*/
     margin-bottom: 30px;
 }
 

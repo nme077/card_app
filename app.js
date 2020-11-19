@@ -22,7 +22,7 @@ const express = require("express"),
 const app = express();
 
 // CONNECT TO MONGODB
-mongoose.connect(process.env.URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).catch(error => handleError(error));
+mongoose.connect(process.env.URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}).catch(error => res.send(error));
 
 // require routes
 const cardRoutes = require('./routes/cards');
