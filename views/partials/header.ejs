@@ -13,7 +13,7 @@
     
 </head>
 <body>
-    <% if(path !== '/' && path !== '/register' && path !== '/login') { %>
+    <% if(path !== '/' && path !== '/register' && path !== '/login' && path !== '/forgot') { %>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow mb-5">
         
         <a class="navbar-brand" href="<%= !currentUser ? '/' : '/cards'%>"><img id="nav-logo" src="/images/White on Transparent.png"></a>
@@ -65,7 +65,7 @@
     <% } else if(path !== '/') { %>
         <a class="navbar-brand col-6" href="/"><img class="img img-fluid my-3  ml-3" id="auth-logo" src="/images/Black on Transparent.png"></a>
 
-        <a href="/tutorial" class="float-right learn-more-btn col-2"><button class="btn btn-lg mt-3 nav-link topNav">Learn more</button></a>
+        <a href="/tutorial" class="learn-more-btn col-5"><button class="btn mt-4 mr-3 topNav learn-btn float-right">Learn more</button></a>
     <% } %>
 
 <div class="page-container">

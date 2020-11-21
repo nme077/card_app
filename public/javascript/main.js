@@ -1,5 +1,9 @@
 $(document).ready(() => {
 
+const clickableImages = document.querySelectorAll('.draggableImage');
+const imageContainers = document.querySelectorAll('.dropzone');
+let selected;
+
 // Event listeners for card create page
 const templateChoices = document.querySelectorAll('.template-picker');
 
@@ -19,7 +23,7 @@ templateChoices.forEach(el => {
     });
 });
 
-// Event listener to require template choice - redundancy to disabled button
+// Event listener to require template choice (redundancy to disabled button)
 const createForm = document.querySelector('#card-content-input');
 if(createForm) {
     createForm.addEventListener('submit', (e) => {
@@ -38,12 +42,12 @@ if(createForm) {
 const page = document.querySelector('.page');
 
 // Size card on page load and define padding on page container
-$(document).ready(() => {
-    if(page !== null) {
-        resizeCard();
-    }
-    pagePlacement();
-});
+if(page !== null) {
+    resizeCard();
+}
+pagePlacement();
+// Insert placeholder images on load
+addPlaceholderImg();
 
 // Resize card on window resize
 $(window).resize(() => {
@@ -103,7 +107,6 @@ $('.delete_button, .delete-btn-index').on('click', (e) => {
 });
 
 // Action menu on all cards screen
-
 $('.card').on('mouseenter', (e) => {
     hideAllFileMenus(e);
     insertFileMenu(e);
@@ -157,13 +160,10 @@ $('.custom-file-input').change(function() {
     }
   });
 
-/////////////////////////
-// Adding images to cards
-/////////////////////////
 
-const clickableImages = document.querySelectorAll('.draggableImage');
-const imageContainers = document.querySelectorAll('.dropzone');
-let selected;
+// Adding images to cards
+
+
 
 // Event listeners
 for (let image of clickableImages) {
@@ -174,6 +174,7 @@ for (let imageContainer of imageContainers) {
     imageContainer.addEventListener('click', clickEnd);
 };
 
+// Handle click of photo in library
 function clickStart(e) {
       // Remove styling from any element with class 'selected-img' then add class
     $('.photo-menu').css('display','none');
@@ -187,6 +188,7 @@ function clickStart(e) {
     addPhotoOptions(e)
 };
 
+// Render options on selected photo
 function addPhotoOptions(e) {
     const children = e.target.parentNode.childNodes;
     
@@ -196,6 +198,7 @@ function addPhotoOptions(e) {
     };
 }
 
+// Handle click on image container (on card)
 function clickEnd(e) {
     e.preventDefault();
     const imageNodeArr = Array.from(this.childNodes);
@@ -222,6 +225,7 @@ window.addEventListener('click', (e) => {
     };
 });
 
+// Handle photo selection removal
 function removeSelection() {
     selected = '';
     $('.selected-img').removeClass('selected-img');
@@ -230,9 +234,6 @@ function removeSelection() {
 };
 
 // Handle image placeholder
-// Insert placeholder images on load
-addPlaceholderImg();
-
 function addPlaceholderImg() {
     const imageElements = document.querySelectorAll('.card-image');
     
@@ -263,6 +264,7 @@ $("#save").on('click', async function(e) {
     updateCard(e);
 });
 
+// Handle update of card (update route)
 function updateCard(e) {
     const id = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
     const images = document.querySelectorAll('.card-image');
@@ -339,7 +341,7 @@ function updateCard(e) {
     }); 
 }
 
-  // Handle loading indicator
+// Handle loading indicator
 function loadingIndicator(isLoading, outerHTML, originalHTML, loadingHTML) {
     if(isLoading === true) {
         outerHTML.innerHTML = loadingHTML;
@@ -348,6 +350,7 @@ function loadingIndicator(isLoading, outerHTML, originalHTML, loadingHTML) {
     }
 }
 
+// Handle fadeout of flash messages
 function fadeOutFlashMessage() {
     setTimeout(() => {
         $('.alert-container').fadeOut("slow")
@@ -376,6 +379,7 @@ $('#print-btn').on('click', (e) => {
     printPDF();
 });
 
+// Handle pdf saving
 function printPDF () {
     const domElement = document.querySelector('.page');
     const fileName = document.querySelector('#card-title').textContent;
@@ -412,11 +416,15 @@ function printPDF () {
 };
 
 function onClone(printDiv) {
+    // Replace input with text div
+    changeInputText();
+    // Resize entire card
     resizeCard(printDiv);
+    // Resize placeholders
     resizePlaceholder();
-    changeInputText() 
 }
 
+// Handle change of input field to regular text to save as pdf
 function changeInputText() {
     const $tagName = $('.message').prop("tagName");
     // Select the existing input field
@@ -430,7 +438,7 @@ function changeInputText() {
         $message.replaceWith(`<input type="text" class="message" value="${$message.val()}">`);
     }
 
-    // Copy attributes of input field
+    // Copy attributes to new element
     for(let i = 0; i < attributes.length; i++) {
         const name = attributes[i].name;
         const value = attributes[i].value;
@@ -461,6 +469,7 @@ if(window.location.pathname.includes('/edit') && window.location.pathname.indexO
     });
 }
 
+// Handle text color selector
 function changeTextColor() {
     const color = this.style.color || 'white';
     const text = document.querySelector('.message');
@@ -468,7 +477,7 @@ function changeTextColor() {
     text.style.color = color;
 }
 
-
+// Handle background color selection
 function changeCardBackgroundColor() {
     const color = this.style.color;
     const cardBackground = document.querySelector('.bottomofpage');

@@ -2,11 +2,13 @@ const middlewareObj = {};
 
 // Logged in middleware
 middlewareObj.isLoggedIn = function(req, res, next) {
-	if(req.isAuthenticated()) {
-		return next();
+	if(!req.isAuthenticated()) {
+		req.session.returnTo = req.originalUrl;
+		req.flash('error', 'You must be logged in to do that.')
+		return res.redirect('/login');
 	}
-	req.flash('error', 'You must be logged in to do that.')
-	res.redirect('/login');
+
+	return next();
 };
 
 middlewareObj.allowedFileType = function(req, res, next) {

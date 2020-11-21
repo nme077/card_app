@@ -133,6 +133,14 @@ button.bottomNav, button.topNav, a.topNav {
     z-index: 1;
 }
 
+.learn-btn {
+    font-size: 1.25em;
+}
+
+#forgot {
+    cursor: pointer;
+}
+
 .delete-btn-index, .edit-btn-index {
     padding: 0 5px;
     transition-duration: 80ms;
@@ -474,10 +482,6 @@ img {
     position: relative;
     z-index: 1;
     padding-top: 4em;
-}
-
-#login-form {
-    padding-top: 9em;
 }
 
 .alert-container{
