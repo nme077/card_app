@@ -81,14 +81,11 @@ router.put('/user/:id', middleware.isLoggedIn, (req, res) => {
         email: req.body.email
     };
 
-    console.log(userInfo.firstName)
-
     User.findOneAndUpdate({_id: req.params.id}, userInfo, (err, user) => {
         if(err) {
             req.flash('error', 'Something went wrong');
             res.redirect('back');
         } else {
-            console.log(user)
             req.flash('success', 'User information updated');
             res.redirect('back');
         }
@@ -142,9 +139,24 @@ router.post('/forgot', (req, res, next) => {
                 to: user.email,
                 from: '"Cards" <cardapp77@gmail.com>',
                 subject: 'Cards Password Reset',
-                text: `Hi ${user.firstName}, \n\n Someone requested that the password for your Cards account be reset. \n\n Please click the following link or copy and paste it into your browser to reset your password. https://${req.headers.host}/reset/${token} \n\n If you did not request this, you can ignore this email or let us know. Your password won't change until you create a new password. \n\n Sincerely, \n Nicholas`
+                text: `Hi ${user.firstName}, \n\n Someone requested that the password for your Cards account be reset. \n\n Please click the following link or copy and paste it into your browser to reset your password. https://${req.headers.host}/reset/${token} \n\n If you did not request this, you can ignore this email or let us know. Your password won't change until you create a new password. \n\n Sincerely, \n Nicholas`,
+                html: `
+                <img src="https://i.imgur.com/uXnvrl0.png?2" style="width: 160px;">
+                <h3>Hi ${user.firstName},</h3>
+
+                <p>Someone requested that the password for your Cards account be reset. Please click button below or copy and paste the link into your browser to reset your password.</p>
+                
+                <button style="background: #3492eb; border-color: #3492eb; border-radius: 5px;"><a href="https://${req.headers.host}/reset/${token}" style="color: black;
+                  text-decoration: none;">Reset Password</a></button>
+                <p>If you did not request this, you can ignore this email or let us know. Your password won't change until you create a new password.</p>
+                <p>Sincerely,</p> 
+                <p>Nicholas</p>`
             };
             smtpTransport.sendMail(mailOptions, (err) => {
+                if(err) {
+                    req.flash('error', 'Something went wrong, try again');
+                    return done(err, 'done');
+                }
                 req.flash('success', `An email has been sent to ${user.email} with further instructions to reset your password.`);
                 done(err, 'done');
             });
@@ -208,7 +220,7 @@ router.post('/reset/:token', (req, res) => {
                 to: user.email,
                 from: '"Cards" <cardapp77@gmail.com>',
                 subject: 'Your password has been changed',
-                text: `Hi ${user.firstName}, \n\n This is a confirmation that the password for your Cards account with email ${user.email} has just changed.`
+                text: `Hi ${user.firstName}, \n\n Your Cards password has just changed.`
             };
             smtpTransport.sendMail(mailOptions, (err) => {
                 if(err) {

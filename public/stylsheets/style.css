@@ -131,14 +131,19 @@ button.bottomNav, button.topNav, a.topNav {
 .learn-more-btn {
     position: relative;
     z-index: 1;
+    font-size: 1.25em;
 }
 
-.learn-btn {
-    font-size: 1.25em;
+.learn-more-btn:hover {
+    color: rgb(85, 85, 85);
 }
 
 #forgot {
     cursor: pointer;
+}
+
+#forgot-subtext {
+    font-size: 1rem;
 }
 
 .delete-btn-index, .edit-btn-index {

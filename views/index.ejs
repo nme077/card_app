@@ -43,8 +43,8 @@
                     <div class="indexFileMenu">
                         <!--<button class="btn text-secondary edit-btn-index"><i class="fas fa-edit"></i></button>-->
 
-                        <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
-                            <button class="dropdown-item submit text-danger delete-btn-index" type="submit" data-toggle="modal" data-target="#deleteModal" id="delete_button"><i class="far fa-trash-alt"></i></button>
+                        <form action="/cards/<%= card._id %>?_method=DELETE" method="POST">
+                            <button class="dropdown-item submit text-danger delete-btn-index" type="submit" data-toggle="modal" data-target="#deleteModal" ><i class="far fa-trash-alt"></i></button>
                         </form>
                       
                     </div>
