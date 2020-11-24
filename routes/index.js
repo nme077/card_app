@@ -238,7 +238,7 @@ router.post('/reset/:token', (req, res) => {
         }
         res.redirect('/cards');
     })
-})
+});
 
 router.get('/tutorial', (req, res) => {
     res.render('tutorial', {templateData});

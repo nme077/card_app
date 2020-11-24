@@ -62,7 +62,7 @@
         <div class="dropdown-menu">
             <!-- Dropdown menu links -->
             <a class="dropdown-item" id="print-btn">Save as PDF</a>
-            <div class="dropdown-divider"></div>
+            <div class="dropdown-divider" id="options-divider"></div>
             <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
                 <button class="dropdown-item submit text-danger delete_button" type="submit" data-toggle="modal" data-target="#deleteModal">Delete</button>
             </form>

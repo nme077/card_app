@@ -439,7 +439,13 @@ function isMobile() {
         check = true;
     })(navigator.userAgent||navigator.vendor||window.opera);
     return check;
-  };
+};
+
+// Only show save as pdf when not on mobile
+if(isMobile()) {
+    document.querySelector('#print-btn').style.display = 'none';
+    document.querySelector('#options-divider').style.display = 'none';
+}
 
 // Handle change of input field to regular text to save as pdf
 function changeInputText() {
