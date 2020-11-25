@@ -138,6 +138,16 @@ button.bottomNav, button.topNav, a.topNav {
     color: rgb(85, 85, 85);
 }
 
+.back-btn {
+    padding-left: 5%;
+    position: fixed;
+}
+
+.back-btn-link {
+    text-decoration: none;
+    color: white;
+}
+
 #forgot {
     cursor: pointer;
 }

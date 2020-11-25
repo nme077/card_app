@@ -1,6 +1,6 @@
 $(document).ready(() => {
 
-    document.cookie = "SameSite=Secure";
+document.cookie = "SameSite=Secure";
 
 const clickableImages = document.querySelectorAll('.draggableImage');
 const imageContainers = document.querySelectorAll('.dropzone');
@@ -443,8 +443,13 @@ function isMobile() {
 
 // Only show save as pdf when not on mobile
 if(isMobile()) {
-    document.querySelector('#print-btn').style.display = 'none';
-    document.querySelector('#options-divider').style.display = 'none';
+    if(document.querySelector('#print-btn')) {
+        document.querySelector('#print-btn').style.display = 'none';
+    }
+    if(document.querySelector('#options-divider')) {
+        document.querySelector('#options-divider').style.display = 'none';
+    }
+    
 }
 
 // Handle change of input field to regular text to save as pdf
@@ -515,6 +520,17 @@ function rotateIcon() {
 
 const collapseBtn = document.querySelector('#collapse-btn');
 if(collapseBtn) collapseBtn.addEventListener('click', rotateIcon);
+
+// Back button
+const backButton = document.querySelector('.back-btn-link');
+if(backButton) {
+    backButton.addEventListener('click', () => {
+        console.log(history);
+        history.back(-1);
+    });
+}
+
+console.log(history);
 
 
 });  //Document ready function

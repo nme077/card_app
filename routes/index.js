@@ -242,7 +242,13 @@ router.post('/reset/:token', (req, res) => {
 });
 
 router.get('/tutorial', (req, res) => {
+    res.locals.backUrl = req.originalUrl;
     res.render('tutorial', {templateData});
+});
+
+router.get('/back', (req, res) => {
+    console.log(req);
+    res.redirect('back');
 });
 
 
