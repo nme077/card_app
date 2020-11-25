@@ -2,6 +2,7 @@ $(document).ready(() => {
 
 document.cookie = "SameSite=Secure";
 
+// Variables
 const cardBg = document.querySelector('.bottomofpage');
 const text = document.querySelector('.message');
 const clickableImages = document.querySelectorAll('.draggableImage');
