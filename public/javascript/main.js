@@ -2,6 +2,8 @@ $(document).ready(() => {
 
 document.cookie = "SameSite=Secure";
 
+const cardBg = document.querySelector('.bottomofpage');
+const text = document.querySelector('.message');
 const clickableImages = document.querySelectorAll('.draggableImage');
 const imageContainers = document.querySelectorAll('.dropzone');
 let selected;
@@ -217,6 +219,9 @@ function clickEnd(e) {
         addPlaceholderImg();
     }
 
+    // Autosave
+    updateCard();
+
     removeSelection();
 };
 
@@ -261,13 +266,23 @@ function addPlaceholderImg() {
     }
 };
 
+// Auto save messages
+const messages = document.querySelectorAll('.message');
+
+for(let message of messages) {
+    message.addEventListener('change', (e) => {
+        updateCard();
+    })
+};
+
+
 // Handle save button
 $("#save").on('click', async function(e) {
-    updateCard(e);
+    updateCard();
 });
 
 // Handle update of card (update route)
-function updateCard(e) {
+function updateCard() {
     const id = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
     const images = document.querySelectorAll('.card-image');
     const messagesNodeList = document.querySelectorAll('.message')
@@ -289,10 +304,8 @@ function updateCard(e) {
     }
 
     // Card properties to save
-    const cardBg = document.querySelector('.bottomofpage');
-    const cardBgColor = cardBg.style.background || '';
+    const cardBgColor = cardBg.style.background;
 
-    const text = document.querySelector('.message');
     const textColor = text.style.color;
 
     // Initialize loading indicator
@@ -503,6 +516,9 @@ function changeTextColor() {
     const text = document.querySelector('.message');
 
     text.style.color = color;
+
+    // auto save
+    updateCard();
 }
 
 // Handle background color selection
@@ -511,6 +527,9 @@ function changeCardBackgroundColor() {
     const cardBackground = document.querySelector('.bottomofpage');
 
     cardBackground.style.background = color;
+
+    // auto save
+    updateCard()
 }
 
 // Rotate collapse icon on click
@@ -525,12 +544,10 @@ if(collapseBtn) collapseBtn.addEventListener('click', rotateIcon);
 const backButton = document.querySelector('.back-btn-link');
 if(backButton) {
     backButton.addEventListener('click', () => {
-        console.log(history);
+        console.log(history.back(-1));
         history.back(-1);
     });
 }
-
-console.log(history);
 
 
 });  //Document ready function
