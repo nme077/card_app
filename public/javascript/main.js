@@ -74,7 +74,7 @@ function pagePlacement() {
 };
 
 function resizeCard(printDiv) {
-    const ratio = 11/8.5; // Standard sheet of paper
+    const ratio = printDiv ? 11/8.5 : (11/2) / 8.5; // Standard sheet of paper (half height for client view)
     const width = printDiv ? 816 : $('.page').css('width').replace(/px/,''); // Width of page container
     const height = Math.floor(width * ratio);
 
@@ -167,9 +167,6 @@ $('.custom-file-input').change(function() {
 
 
 // Adding images to cards
-
-
-
 // Event listeners
 for (let image of clickableImages) {
     image.addEventListener('click', clickStart);
@@ -218,10 +215,9 @@ function clickEnd(e) {
     if(selected) {
         image.src = selected.src;
         addPlaceholderImg();
+        // Autosave
+        updateCard();
     }
-
-    // Autosave
-    updateCard();
 
     removeSelection();
 };
@@ -276,20 +272,12 @@ for(let message of messages) {
     })
 };
 
-
-// Handle save button
-$("#save").on('click', async function(e) {
-    updateCard();
-});
-
 // Handle update of card (update route)
 function updateCard() {
     const id = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
     const images = document.querySelectorAll('.card-image');
     const messagesNodeList = document.querySelectorAll('.message')
-    const saveButton = document.querySelector('#save');
-    const originalSaveButtonHTML = saveButton.innerHTML;
-    const loadingSpinner = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+    const saveButton = document.querySelector('#print-btn');
     const saveDialog = document.querySelector('#save-success');
     let imageUrlArr = [];
     let messages = [];
@@ -309,10 +297,6 @@ function updateCard() {
 
     const textColor = text.style.color;
 
-    // Initialize loading indicator
-    let isLoading = true;
-    loadingIndicator(isLoading, saveButton, originalSaveButtonHTML, loadingSpinner);
-
 
     // HTTP request
     axios({
@@ -324,11 +308,7 @@ function updateCard() {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
-    }).then((res) => {
-        // Remove loading spinner
-        isLoading = false;
-        loadingIndicator(isLoading, saveButton, originalSaveButtonHTML, loadingSpinner);
-        
+    }).then((res) => {        
         // Show save success message
         if(!saveDialog) {
             $(`<div class="container alert-container">
@@ -378,6 +358,7 @@ setTimeout(() => {
     $('.alert-container').fadeOut("slow")
 },10000);
 
+// remove child node by class
 function removeChildNodeByClass(parent, className) {
     const children = parent.childNodes;
         
@@ -399,7 +380,7 @@ $('#print-btn').on('click', (e) => {
 function printPDF () {
     const domElement = document.querySelector('.page');
     const fileName = document.querySelector('#card-title').textContent;
-    const outerHTML = document.querySelector('#options-button');
+    const outerHTML = document.querySelector('#print-btn');
     const originalHTML = outerHTML.innerHTML;
     const saveDialog = document.querySelector('#save-success');
     const loadingSpinner = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
@@ -412,21 +393,24 @@ function printPDF () {
         jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' }
       };
 
+    // Show loading indicator
     let isLoading = true;
     loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
 
     html2pdf().from(domElement).set(opt).save().then(() => {
+        // Hide loading indicator
         isLoading = false;
         loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
+        printing = false;
+
         // Resize the card for device after printing
         onClone(false);
-
-        if(isMobile()) {
-
-        }
     }).catch(() => {
+        // Hide loading indicator
         isLoading = false;
         loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
+        printing = false;
+
         if(!saveDialog) {
             $('<div class="d-inline" id="save-success">Error, try again</div>').insertBefore('#save-button-group');
         }
@@ -437,12 +421,29 @@ function printPDF () {
 };
 
 function onClone(printDiv) {
+    // Unhide top of page
+    unhideTopPage(printDiv);
     // Replace input with text div
     changeInputText();
     // Resize entire card
     resizeCard(printDiv);
     // Resize placeholders
     resizePlaceholder();
+}
+
+function unhideTopPage(printDiv) {
+    if(printDiv) {
+        // Set display to block
+        document.querySelector('.topofpage').style.display = 'block';
+        // make top and bottom of page height 50%
+        document.querySelector('.topofpage').style.height = '50%';
+        document.querySelector('.bottomofpage').style.height = '50%';
+    } else {
+        // Set display to block
+        document.querySelector('.topofpage').style.display = 'none';
+        // make top and bottom of page height 50%
+        document.querySelector('.bottomofpage').style.height = '100%';
+    }
 }
 
 // is Mobile
@@ -456,14 +457,9 @@ function isMobile() {
 };
 
 // Only show save as pdf when not on mobile
-if(isMobile()) {
-    if(document.querySelector('#print-btn')) {
-        document.querySelector('#print-btn').style.display = 'none';
-    }
-    if(document.querySelector('#options-divider')) {
-        document.querySelector('#options-divider').style.display = 'none';
-    }
-    
+if(isMobile() && document.querySelector('#print-btn')) {
+    document.querySelector('#print-btn').disabled = true;
+    document.querySelector('#print-btn').style.cursor = 'not-allowed';
 }
 
 // Handle change of input field to regular text to save as pdf
@@ -489,6 +485,8 @@ function changeInputText() {
     }
 }
 
+
+
 // Background color selector
 if(window.location.pathname.includes('/edit') && window.location.pathname.indexOf('user') !== 1) {
     // Background color selector
@@ -496,7 +494,10 @@ if(window.location.pathname.includes('/edit') && window.location.pathname.indexO
     bgColorList.forEach((node) => {
         const classNames = node.className;
         if(classNames && classNames.includes('bg-color')) {
-            node.addEventListener('click', changeCardBackgroundColor);
+            if(node.type !== 'color') {
+                node.addEventListener('click', changeCardBackgroundColor);    
+            }
+            node.addEventListener('change', changeCardBackgroundColor);
         }
     });
 
@@ -524,7 +525,7 @@ function changeTextColor() {
 
 // Handle background color selection
 function changeCardBackgroundColor() {
-    const color = this.style.color;
+    const color = this.style.color || this.value;
     const cardBackground = document.querySelector('.bottomofpage');
 
     cardBackground.style.background = color;
@@ -548,7 +549,13 @@ if(backButton) {
         console.log(history.back(-1));
         history.back(-1);
     });
-}
+};
+
+// Card tooltips
+cardBg.addEventListener('mouseover', () => {
+    $('.bottomofpage').tooltip();
+})
+
 
 
 });  //Document ready function

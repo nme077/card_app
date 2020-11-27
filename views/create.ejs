@@ -19,7 +19,7 @@
 
             <div class="form-group row m-3" id="template_choice">
                 <% templateData.forEach(template => { %>
-                    <div class="template-picker col-6 col-lg-6 mb-2" value="<%= template.fileName %>">
+                    <div class="template-picker col-4 col-lg-4 mb-2" value="<%= template.fileName %>">
                         <img class="template-picker-img mw-100" src="/images/template_images/<%= template.fileName %>.png">
                         <span class="tooltip-text lead"><%= template.name %></span>
                     </div>

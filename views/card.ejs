@@ -28,12 +28,13 @@
 
 
     <div class="btn-group float-right" role="group" aria-label="Options" id="save-button-group">
+  
       <!--First button-->
-      <div class="btn-group dropleft d-block" id="colors">
-        <button type="button" id="properties-button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-palette"></i>
+      <div class="btn-group dropleft d-block" id="options">
+        <button type="button" id="options-button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-tools"></i>
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu p-1">
             <!-- Dropdown menu links -->
             <div class="background-color-list text-center">
               <p class="display-6">Background color</p>
@@ -44,41 +45,37 @@
               <i class="fas fa-square bg-color" style="color: #fcf78f;"></i>
               <i class="fas fa-square bg-color" style="color: #eb766e;"></i>
               <i class="fas fa-square bg-color" style="color: #fecbdb;"></i>
+              <input class="bg-color" name="Color Picker" id="color-picker" type="color"/>
             </div>  
+
             <div class="dropdown-divider"></div>
+
             <div class="text-color-list text-center">
               <p class="display-6">Text color</p>
               <i class="far fa-square text-color"></i>
               <i class="fas fa-square text-color" style="color: #000000;"></i>
               <i class="fas fa-square text-color" style="color: #8a8a8a;"></i>
             </div>  
-          </div>
-      </div>
-      <!--Second button-->
-      <div class="btn-group dropleft d-block" id="options">
-        <button type="button" id="options-button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-tools"></i>
-        </button>
-        <div class="dropdown-menu">
-            <!-- Dropdown menu links -->
-            <a class="dropdown-item" id="print-btn">Save as PDF</a>
-            <div class="dropdown-divider" id="options-divider"></div>
+
+            <div class="dropdown-divider"></div>
+            
             <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
-                <button class="dropdown-item submit text-danger delete_button" type="submit" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                <button class="dropdown-item submit text-danger text-center delete_button" type="submit" data-toggle="modal" data-target="#deleteModal">Delete card</button>
             </form>
           </div>
       </div>
-      <!--Third button-->
-      <button class="btn btn-primary" id="save"><i class="fas fa-save"></i></button>
+      <!--Second button-->
+      <button class="btn btn-primary" id="print-btn"><i class="fas fa-print"></i></i></button>
+
     </div>
 
     <!--Page to print-->
     <div class="page">
-        <div class="topofpage d-block">
+        <div class="topofpage">
             <!--Insert card layout-->
             <div id="company-credit"><img src="/images/Monochrome on Transparent.png" id="company-credit-logo">  </div>
         </div>
-        <div class="bottomofpage d-block" style="background-color: <%= card.bottomFrontBackgroundColor %>;">
+        <div class="bottomofpage d-block" style="background-color: <%= card.bottomFrontBackgroundColor %>;" data-toggle="tooltip" data-placement="top" title="Bottom half of card">
             <%- include(`./card_templates/${card.template_choice}`) %>
         </div>
     </div>

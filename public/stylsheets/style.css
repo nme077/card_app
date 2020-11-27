@@ -218,7 +218,11 @@ button.bottomNav, button.topNav, a.topNav {
     z-index: 1;
 }
   
-.template-picker-img:hover .tooltip-text {
+.template-picker-img:hover .tooltip-text, #print-btn:hover .tooltip-text {
+    visibility: visible;
+}
+
+#print-btn:hover .tooltip-text {
     visibility: visible;
 }
 
@@ -242,8 +246,8 @@ button.bottomNav, button.topNav, a.topNav {
 /* Card screen */
 .page {
     width: 215.9mm;
+    height: 139.7mm;  /** 279.4mm; **/
     max-width: 100%;
-    height: 279.4mm;
     margin: 30px auto;
     overflow: hidden;
     position: relative;
@@ -300,6 +304,10 @@ button.bottomNav, button.topNav, a.topNav {
     cursor: pointer;
 }
 
+.color-picker {
+    padding: 0;
+}
+
 .background-color-list, .text-color-list {
     user-select: none; /* Standard */
     -webkit-user-select: none; /* Safari */        
@@ -348,6 +356,7 @@ button.bottomNav, button.topNav, a.topNav {
     align-items: center;
 }
 
+
 #company-credit {
     bottom: 0;
     position: absolute;
@@ -370,11 +379,12 @@ button.bottomNav, button.topNav, a.topNav {
 }
 
 .topofpage, .bottomofpage {
-    height: 50%;
+    height: 100%; /** 50% for printing **/
     border-top: 1px solid lightgray;
 }
 
 .topofpage {
+    display: none;
     transform: rotate(180deg);
 }
 
