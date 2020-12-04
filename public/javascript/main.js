@@ -367,7 +367,7 @@ $('.custom-file-input').change(function() {
 
     // Handle text color selector
     function changeTextColor() {
-        const color = this.style.color || 'white';
+        const color = this.style.color || "white";
 
         for(let message of messages) {
             message.style.color = color;
@@ -383,7 +383,7 @@ $('.custom-file-input').change(function() {
         
         const cardBackground = document.querySelector('.bottomofpage');
 
-        cardBackground.style.background = color;
+        cardBackground.style.background = color || 'white';
 
         // auto save
         updateCard();
@@ -511,7 +511,7 @@ function updateCard() {
     }
 
     // Card properties to save
-    const cardBgColor = cardBg.style.backgroundColor;
+    const cardBgColor = cardBg.style.backgroundColor || "white";
 
     const messageColor = messages[0].style.color;
 

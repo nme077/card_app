@@ -13,6 +13,10 @@ body, html {
     background-color: #e6e6e6;
 }
 
+.row {
+    margin: auto !important;
+}
+
 .page-container {
     position: relative;
     min-height: 100vh;
@@ -136,6 +140,26 @@ button.bottomNav, button.topNav, a.topNav {
 
 .learn-more-btn:hover {
     color: rgb(85, 85, 85);
+}
+
+.learn-box-1, .learn-box-2 {
+    height: 500px;
+}
+
+.learn-box-1:nth-child(odd) {
+    background: brown;
+}
+
+.learn-box-1:nth-child(even) {
+    background: blue;
+}
+
+.learn-box-2:nth-child(odd) {
+    background: blue;
+}
+
+.learn-box-2:nth-child(even) {
+    background: brown;
 }
 
 .back-btn {
