@@ -72,8 +72,12 @@
     <!--Page to print-->
     <div class="page">
         <div class="topofpage">
-            <!--Insert card layout-->
-            <div id="company-credit"><img src="/images/Monochrome on Transparent.png" id="company-credit-logo">  </div>
+            <!--Logo and website-->
+
+            <div id="company-credit">
+              <img src="/images/Monochrome on Transparent.png" id="company-credit-logo">
+              <p>createcards.app</p>  
+            </div>
         </div>
         <div class="bottomofpage d-block" style="background-color: <%= card.bottomFrontBackgroundColor %>;" data-toggle="tooltip" data-placement="top" title="Bottom half of card">
             <%- include(`./card_templates/${card.template_choice}`) %>
