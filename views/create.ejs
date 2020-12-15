@@ -1,12 +1,14 @@
 <%- include('./partials/header.ejs') %>
 
 <main class="main">
-    <form action="/cards" method="POST" class="container justify-content-center col-md-8 col-lg-6 col-sm-12" id="card-content-input">
+    <form action="<%= currentUser ? '/cards' : '/cards/guest' %>" method="POST" class="container justify-content-center col-md-8 col-lg-6 col-sm-12" id="card-content-input">
             <h1 class="mb-3">Create a new Card</h1>
 
-            <div class="form-group">
-                <input type="text" id="card-name" class="form-control" placeholder="Name of Card" name="card[name]" required>
-            </div>
+            <% if(currentUser) { %>
+                <div class="form-group">
+                    <input type="text" id="card-name" class="form-control" placeholder="Name of Card" name="card[name]" required>
+                </div>
+            <% } %>
 
             <div class="form-group" id="template_choice">
                 <select class="form-control d-none" name="card[template_choice]" id="template_list">

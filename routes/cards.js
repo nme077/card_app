@@ -56,6 +56,25 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
     res.render('create');
 });
 
+// New card for guest
+router.get('/guest/new', (req, res) => {
+    // Render card edit page w/name of card and template
+    res.render('create');
+});
+
+// Create route for guest
+router.post('/guest', (req, res) => {
+    const template = req.body.card.template_choice;
+    res.redirect(`/cards/guest/edit/${template}`);
+});
+
+// Show edit card page for guest
+router.get('/guest/edit/:template', (req, res) => {
+    const template = req.params.template;
+    // show edit
+    res.render('card', {template, card: ''});
+});
+
 // Create new card
 router.post('/', middleware.isLoggedIn, (req, res) => {
     const image = req.body.card.image;

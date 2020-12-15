@@ -37,7 +37,42 @@ $('.custom-file-input').change(function() {
     if($(this).next('label').text() !== '') {
         $('#upload-img-btn').css('display', 'block')
     }
-  });
+});
+
+const guestOrId = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
+const guestCardEdit = window.location.pathname.replace(/\/cards\/guest\//, '').replace(/\/.*$/, '');
+
+if(guestOrId === 'guest' && guestCardEdit === 'edit') {
+    renderLocal();
+    populateLocalPhotos();
+}
+
+function renderLocal() {
+    cardBg.style.backgroundColor = sessionStorage.getItem('bottomFrontBackgroundColor');
+    messages[0].style.color = sessionStorage.getItem('textColor');
+    messages[0].value = sessionStorage.getItem('message');
+    const photos = sessionStorage.getItem('photos');
+
+    const cardPhotos = document.querySelectorAll('.card-image');
+
+    for(let i = 0; i < cardPhotos.length; i++) {
+        if(photos) {
+            cardPhotos[i].src = photos.split(',')[i];
+        }
+    }
+}
+
+function populateLocalPhotos() {
+    const stockPhotos = ['https://i.imgur.com/pDqkHG8.png', 'https://i.imgur.com/Mr5dMY2.png', 'https://i.imgur.com/wLibQF9.png', 'https://i.imgur.com/0KvlfMt.png', 'https://i.imgur.com/3Auo0ZI.png', 'https://i.imgur.com/KjmtAHH.png'];
+
+    for(let photo of stockPhotos) {
+        $('#photo-gallery').append(`
+            <div class="imageDiv col-4 col-lg-3 col-xl-2">
+                <img class="draggableImage" crossorigin="anonymous" src="${photo}" draggable="true" style="padding: 5px;">
+            </div>`);
+    }
+}
+
 
 // Style all pages
 (function() {
@@ -89,6 +124,13 @@ $('.custom-file-input').change(function() {
                 alert('Please select a card template');
                 return false;
             }
+            
+            // Handle guest creation
+            if(!currentUser) {
+                const template = document.querySelector('#template_list').value;
+                sessionStorage.setItem('template', template);
+            }
+
             return true;
         })
     }
@@ -268,7 +310,14 @@ $('.custom-file-input').change(function() {
             printing = false;
 
             if(!saveDialog) {
-                $('<div class="d-inline" id="save-success">Error, try again</div>').insertBefore('#save-button-group');
+                $(`<div class="container alert-container">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Error, please try again
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>	
+            </div>`).insertBefore('footer');
             }
             setTimeout(() => {
                 $('#save-success').fadeOut("slow", () => {$('#save-success').remove()})
@@ -473,7 +522,7 @@ function addPlaceholderImg() {
         const src = el.src.replace(/^(.*[\\\/])/,'');
         const parentElement = el.parentElement;
 
-        if(src === 'none' || src === 'edit') {
+        if(src === '' || src === 'edit' || src === 'undefined') {
             // Hide default placeholder
             el.style.display = 'none';
             // Set background style of parent element
@@ -494,6 +543,37 @@ function addPlaceholderImg() {
 
 // Handle update of card (update route)
 function updateCard() {
+    
+    if(guestOrId === 'guest') {
+        console.log('local')
+        return updateLocal();
+    }
+    return updateUser();
+};
+
+function updateLocal() {
+    // Styles
+    const cardBgColor = cardBg.style.backgroundColor || "white";
+    const messageColor = messages[0].style.color;
+
+    sessionStorage.setItem('bottomFrontBackgroundColor', cardBgColor);
+    sessionStorage.setItem('textColor', messageColor);
+
+    // Content
+    const message = messages[0].value;
+    sessionStorage.setItem('message', message);
+
+    const images = document.querySelectorAll('.card-image');
+    let imageUrlArr = [];
+    
+    // create array of images
+    for(let image of images) {
+        imageUrlArr.push(image.src);
+    }
+    sessionStorage.setItem('photos', imageUrlArr.toString());
+};
+
+function updateUser() {
     const id = window.location.pathname.replace(/\/cards\//, '').replace(/\/.*$/, '');
     const images = document.querySelectorAll('.card-image');
     const saveDialog = document.querySelector('#save-success');
@@ -539,7 +619,7 @@ function updateCard() {
             </div>`).insertBefore('footer');
             fadeOutFlashMessage();
         }
-}).catch((res) => {
+    }).catch((res) => {
         // Show error message
         if(!saveDialog) {
             $(`<div class="container alert-container">

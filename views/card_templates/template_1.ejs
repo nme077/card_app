@@ -1,10 +1,10 @@
-<div class="col-12 text-center" style="height: 75%;">
+<div class="col-12 text-center" style="height: 75%; border-top: 1px solid lightgray">
    <div class="col-12 text-center dropzone" style="height: 100%; width: 100%; margin-top: 5%;">
-      <img class="mx-auto card-image" crossorigin="anonymous" style="max-width: 100%; max-height: 100%;" name="card[image]" src="<%= card.images[0].image !== undefined ? card.images[0].image : '' %>" onerror="this.onerror=null;this.src='none';">
+      <img class="mx-auto card-image" crossorigin="anonymous" style="max-width: 100%; max-height: 100%;" name="card[image]" src="<%= currentUser && card.images[0].image !== undefined ? card.images[0].image : '' %>" onerror="this.onerror=null;this.src='//:0';">
       <i class="far fa-image placeholder"></i>
       
    </div>
 </div>
 <div class="col-12 text-center">
-   <input type="text" class="text-center message" style="width: 100%; margin-top: 1%; color: <%= card.textColor %>;" name="card[message]" placeholder="Type your message here" value="<%= card.messages[0].message %>">
+   <input type="text" class="text-center message" style="width: 100%; margin-top: 7%; color: <%= card.textColor %>;" name="card[message]" placeholder="Type your message here" value="<%= currentUser ? card.messages[0].message : '' %>">
 </div>

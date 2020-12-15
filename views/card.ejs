@@ -24,7 +24,7 @@
 <main class="container main mb-4">
 
   <div id="form1" id="card-content-input">
-    <h3 class="mt-5 pt-5 d-inline" id="card-title"><strong><%= card.name %></strong></h3>
+    <h3 class="mt-5 pt-5 d-inline" id="card-title"><strong><%= currentUser ? card.name : '' %></strong></h3>
 
 
     <div class="btn-group float-right" role="group" aria-label="Options" id="save-button-group">
@@ -59,9 +59,11 @@
 
             <div class="dropdown-divider"></div>
             
-            <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
-                <button class="dropdown-item submit text-danger text-center delete_button" type="submit" data-toggle="modal" data-target="#deleteModal">Delete card</button>
-            </form>
+            <% if(currentUser) { %>
+              <form action="/cards/<%= card._id %>?_method=DELETE" method="POST" id="delete_form">
+                  <button class="dropdown-item submit text-danger text-center delete_button" type="submit" data-toggle="modal" data-target="#deleteModal">Delete card</button>
+              </form>
+            <% } %>
           </div>
       </div>
       <!--Second button-->
@@ -79,16 +81,17 @@
               <p>createcards.app</p>  
             </div>
         </div>
-        <div class="bottomofpage d-block" style="background-color: <%= card.bottomFrontBackgroundColor %>;" data-toggle="tooltip" data-placement="top" title="Bottom half of card">
-            <%- include(`./card_templates/${card.template_choice}`) %>
+        <div class="bottomofpage d-block" style="background-color: <%= currentUser ? card.bottomFrontBackgroundColor : '' %>;" data-toggle="tooltip" data-placement="top" title="Bottom half of card">
+            <%- include(`./card_templates/${currentUser ? card.template_choice : template}`) %>
         </div>
     </div>
   </div>
 
-  <h4 class="text-center">Photos <span class="h6 text-muted"><%= numOfPhotos %> / 12</span></h4>
+  <h4 class="text-center">Photos <span class="h6 text-muted"><%= currentUser ? numOfPhotos + ' / 12' : '' %></span></h4>
+  <% if(currentUser) { %>
   <!-- Image upload -->
   <div class="container col-sm-10 col-md-8 mb-3" id="image-upload-container">
-    <form id="form2" action="/cards/image/upload" method="post" enctype="multipart/form-data">
+      <form id="form2" action="/cards/image/upload" method="post" enctype="multipart/form-data">
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="validatedCustomFile" name="imageUpload" accept="image/*">
         <label class="custom-file-label" for="validatedCustomFile">Upload a photo...</label>
@@ -97,21 +100,24 @@
       <button type="submit" id="upload-img-btn" class="btn btn-primary mt-3" value="form2" style="display: none;">Upload photo</button>
     </form>
   </div>
-  
+  <% } %>
   <button class="btn btn-secondary float-right" id="collapse-btn" type="button" data-toggle="collapse" data-target="#photo-gallery" aria-expanded="false" aria-controls="collapseExample">
     <i class="fas fa-caret-down collapse-icon"></i>
   </button>
   <div class="container pb-3 mb-5">
     <div class="row collapse show" id="photo-gallery">
-      <% for(let file of files) { %>
-          <div class="imageDiv col-4 col-lg-3 col-xl-2">
-              <img class="draggableImage" crossorigin="anonymous" src="<%= file.href %>" draggable="true">
-              <div class="photo-menu">
-                <form class="d-inline delete-photo-form" action="/cards/image/<%= file._id %>/<%= file.file_id %>?_method=DELETE" method="POST">
-                  <button class="btn btn-clear delete-photo-btn text-white delete_button" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i></button>
-                </form>
+      <% if(currentUser) { %>
+        <% for(let file of files) { %>
+          <!-- Also update on main.js-->
+            <div class="imageDiv col-4 col-lg-3 col-xl-2">
+                <img class="draggableImage" crossorigin="anonymous" src="<%= file.href %>" draggable="true">
+                <div class="photo-menu">
+                  <form class="d-inline delete-photo-form" action="/cards/image/<%= file._id %>/<%= file.file_id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-clear delete-photo-btn text-white delete_button" data-toggle="modal" data-target="#deleteModal"><i class="far fa-trash-alt"></i></button>
+                  </form>
+              </div>
             </div>
-          </div>
+        <% } %>
       <% } %> 
     </div>
   </div>

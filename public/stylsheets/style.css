@@ -406,12 +406,12 @@ button.bottomNav, button.topNav, a.topNav {
 
 .topofpage, .bottomofpage {
     height: 100%; /** 50% for printing **/
-    border-top: 1px solid lightgray;
 }
 
 .topofpage {
     display: none;
     transform: rotate(180deg);
+    border-top: 1px solid lightgray;
 }
 
 img {
