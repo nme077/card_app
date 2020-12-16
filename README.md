@@ -1,4 +1,3 @@
 # Cards
-Simple greeting cards creator
 
-- Built on Node.js
+Simple greeting card creator built on node.js
