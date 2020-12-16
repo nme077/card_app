@@ -366,7 +366,8 @@ button.bottomNav, button.topNav, a.topNav {
 .dropzone-active {
     opacity: .5;
     cursor: pointer;
-    border: 2px dashed gray;
+    border: 3px dashed rgba(131, 131, 131, 0.824);
+    border-radius: 10px;
 }
 
 .empty {
@@ -540,7 +541,7 @@ img {
     bottom: 0;
     z-index: 15;
     margin: auto;
-    max-width: fit-content;
+    max-width: 100%;
 }
 
 .alert {

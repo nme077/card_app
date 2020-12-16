@@ -138,6 +138,8 @@ function populateLocalPhotos() {
 
 // CARD EDIT PAGE SIZING
 (function() {
+    // Insert placeholder on page load
+    addPlaceholderImg();
     // Resize card/page to fit window
     const page = document.querySelector('.page');
 
@@ -213,6 +215,15 @@ function populateLocalPhotos() {
         // Save clicked element
         selected = e.target;
 
+        // Show click prompt on image drop zones
+        const dropzoneArr = document.querySelectorAll('.dropzone');
+
+        $('.click-prompt').remove();
+        dropzoneArr.forEach((el) => {
+            const dropzoneHeight = el.clientHeight;
+            $(el).append(`<p class="click-prompt" style="top: -${dropzoneHeight / 1.6}px; position: relative; font-size: ${dropzoneHeight / 6}px; color: black; text-shadow: 2px 2px 8px #5f5f5f; z-index: 2;">Click to insert</p>`);
+        });
+
         // Photo menu
         addPhotoOptions(e)
     };
@@ -262,6 +273,7 @@ function populateLocalPhotos() {
         $('.selected-img').removeClass('selected-img');
         $('.dropzone').removeClass('dropzone-active');
         $('.photo-menu').css('display','none');
+        $('.click-prompt').remove();
     };
 }());
 
