@@ -10,7 +10,8 @@ body, html {
     margin: 0;
     width: 100vw;
     min-height: 100vh;
-    background-color: #e6e6e6;
+    background-color: #F5F5F5;
+    font-family: 'Antic Slab', serif;
 }
 
 .row {
@@ -165,11 +166,16 @@ button.bottomNav, button.topNav, a.topNav {
 .back-btn {
     padding-left: 5%;
     position: fixed;
+    top: 72px;
+    z-index: 9000000;
+
 }
 
 .back-btn-link {
     text-decoration: none;
     color: white;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 #forgot {
@@ -278,7 +284,7 @@ button.bottomNav, button.topNav, a.topNav {
     box-sizing: border-box;
     page-break-after: always;
     background-color: white;
-    box-shadow: 0 0 5px grey;
+    box-shadow: 0 0 8px grey;
     font-family: 'Arial Black', sans-serif;
 }
 
@@ -365,7 +371,7 @@ button.bottomNav, button.topNav, a.topNav {
 
 .dropzone-active {
     opacity: .5;
-    cursor: pointer;
+    cursor: copy;
     border: 3px dashed rgba(131, 131, 131, 0.824);
     border-radius: 10px;
 }
@@ -580,4 +586,30 @@ footer {
 .collapsed-btn {
     transition-duration: 0.3s;    
     transform: rotate(180deg);
+}
+
+about-jumbotron {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.about-row {
+    background-color: #BDCFF7;
+    height: 100%;
+}
+
+.about-text {
+    height: 200px;
+    line-height: 200px;
+    font-weight: 800;
+}
+
+#about-logo {
+    width: 230px;
+    position: relative;
+    top: -4px;
+}
+
+#about {
+    font-weight: 600;
 }

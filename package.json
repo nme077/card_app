@@ -1,6 +1,6 @@
 {
   "name": "card_app",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Greeting card creator",
   "main": "app.js",
   "scripts": {
@@ -36,6 +36,8 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1"
   }
 }

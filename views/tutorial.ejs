@@ -1,18 +1,29 @@
 <%- include('./partials/header.ejs') %>
 
 <div class="back-btn">
-  <button class="btn btn-primary back-btn-link">
+  <button class="btn btn-secondary back-btn-link">
     <i class="fas fa-chevron-left"></i>
   </button>
 </div>
 
 <div class="main">
-  <div class="jumbotron text-center bg-transparent">
-    <h2 class="display-4">About Cards</h1>
+  <div class="jumbotron text-center bg-transparent about-jumbotron">
+    <h2 class="display-4" id="about">About <img src="./images/Black on Transparent.png" alt="cards logo" id="about-logo"></h1>
     <hr class="my-4">
     <p class="lead">Cards is a simple way to create and print greeting cards for any occasion!</p>
+    <p class="lead">Sign up for a free account to quickly create, save, and print greeting cards using your own photos and words.</p>
+    <p class="lead">Or create a card as a guest using a selection of free graphics.</p>
   </div>
 
+  <div class="row align-items-center no-gutters about-row">
+    <div class="h-100 col-md-6 col-sm-12 text-center order-1">
+      <h2 class="about-text">Simple. Fast. Free.</h2>
+    </div>
+    <div class="col-md-6 col-sm-12 order-2">
+      <img class="img-fluid" src="/images/cards_envelope.png" alt="card in envelope">
+    </div>
+  </div>
+  <!--
   <div class="container mb-5">
     <div class="row">
       <div class="card col-md-4 col-sm-12 p-3">
@@ -48,5 +59,5 @@
       </div>
     </div>
   </div>
-
+-->
 <%- include('./partials/footer.ejs') %>
