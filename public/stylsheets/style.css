@@ -588,7 +588,7 @@ footer {
     transform: rotate(180deg);
 }
 
-about-jumbotron {
+.about-jumbotron {
     padding-top: 0;
     padding-bottom: 0;
 }
