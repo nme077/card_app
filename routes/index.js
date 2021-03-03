@@ -163,7 +163,10 @@ router.post('/forgot', (req, res, next) => {
             });
         }
     ], function(err) {
-        if(err) return next(err);
+        if(err) {
+            console.log(err);
+            return next(err);
+        }
         res.redirect('/forgot');
     });
 });
