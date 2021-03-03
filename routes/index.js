@@ -8,8 +8,14 @@ const express = require('express'),
       templateData = require('../templateData'),
       middleware = require('../middleware'),
       nodemailer = require('nodemailer'),
+      { google } = require('googleapis'),
       async = require('async'),
       crypto = require('crypto');
+
+// CONFIRGURE EMAIL
+const oAuth2Client = new google.auth.OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.REDIRECT_URI);
+
+oAuth2Client.setCredentials({refresh_token: process.env.REFRESH_TOKEN});
 
 router.use((req, res, next) => {
     res.locals.currentUser = req.user;
@@ -128,11 +134,18 @@ router.post('/forgot', (req, res, next) => {
             });
         },
         function(token, user, done) {
+            // Get access token
+            const accessToken = oAuth2Client.getAccessToken();
+
             const smtpTransport = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
+                    type: 'OAuth2',
                     user: 'cardapp77@gmail.com',
-                    pass: process.env.GMAILPW
+                    clientId: process.env.CLIENT_ID,
+                    clientSecret: process.env.CLIENT_SECRET,
+                    refreshToken: process.env.REFRESH_TOKEN,
+                    accessToken: accessToken
                 }
             });
             const mailOptions = {
