@@ -296,8 +296,10 @@ $('.delete_button, .delete-btn-index').on('click', (e) => {
         const children = e.target.parentNode.childNodes;
         
         for(const child of children) {
-            if(child.classList && child.classList.contains('photo-menu'));
-            return child.style.display = 'inline';
+            if(child.classList && child.classList.contains('photo-menu')) {
+                console.log(child)
+                child.style.display = 'inline';
+            }
         };
     }
 

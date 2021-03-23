@@ -12,7 +12,7 @@ middlewareObj.isLoggedIn = function(req, res, next) {
 };
 
 middlewareObj.allowedFileType = function(req, res, next) {
-	const mimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/ief', 'image/pipeg', 'image/svg+xml', 'image/tiff'];
+	const mimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/ief', 'image/pipeg', 'image/svg+xml', 'image/tiff'];
 	const maxPhotos = 12;
 
 	if(mimeTypes.includes(req.file.mimetype)) {
