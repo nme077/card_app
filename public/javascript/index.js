@@ -297,7 +297,6 @@ $('.delete_button, .delete-btn-index').on('click', (e) => {
         
         for(const child of children) {
             if(child.classList && child.classList.contains('photo-menu')) {
-                console.log(child)
                 child.style.display = 'inline';
             }
         };

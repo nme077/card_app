@@ -263,7 +263,6 @@ router.get('/tutorial', (req, res) => {
 });
 
 router.get('/back', (req, res) => {
-    console.log(req);
     res.redirect('back');
 });
 

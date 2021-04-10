@@ -206,7 +206,14 @@ router.delete('/:id', middleware.isLoggedIn, (req, res) => {
 
 // Set up multer
 
-upload = multer({ 
+// Multer file limits
+const limits = {
+    fileSize: 10240 * 10240, // 10 MB (max file size)
+    };
+
+// Set up multer
+const upload = multer({ 
+    limits: limits,
     storage: multer.diskStorage({})
 });
 
@@ -215,6 +222,14 @@ upload = multer({
 router.post('/image/upload', middleware.isLoggedIn, upload.single("imageUpload"), middleware.allowedFileType, function (req, res) {
     // 1. Upload the file
     cloudinary.uploader.upload(req.file.path, function(err, result) {
+        if(err) {
+            if(err.message.includes('File size too large')) {
+                req.flash('error', 'File too large, must be less than 10MB.')
+                return res.redirect('back');
+            }
+            req.flash('error', 'Something went wrong, try again.')
+            return res.redirect('back');
+        }
         const fileToSave = {
             href: result.secure_url,
             file_id: result.public_id,
