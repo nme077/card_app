@@ -305,12 +305,16 @@ $('.delete_button, .delete-btn-index').on('click', (e) => {
     // Handle click on image container (on card)
     function clickEnd(e) {
         e.preventDefault();
-        
+
         let image;
         // Insert image source from selected photo
         this.childNodes.forEach(node => {
-            if(node.nodeName === 'IMG') {
-                image = node;
+            if(node.childNodes !== null) {
+                node.childNodes.forEach((childNode) => {
+                    if(childNode.nodeName === 'IMG') {
+                        return image = childNode;
+                    }
+                })
             }
         });
 

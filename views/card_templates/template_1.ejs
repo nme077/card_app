@@ -1,8 +1,9 @@
 <div class="col-12 text-center" style="height: 75%; border-top: 1px solid lightgray">
    <div class="col-12 text-center dropzone" style="height: 100%; width: 100%; margin-top: 5%;">
-      <img class="mx-auto card-image" crossorigin="anonymous" style="max-width: 100%; max-height: 100%;" name="card[image]" src="<%= currentUser && card.images[0].image !== undefined ? card.images[0].image : '' %>" onerror="this.onerror=null;this.src='//:0';">
-      <i class="far fa-image placeholder"></i>
-      
+      <div class="h-100 d-flex align-items-center justify-content-center">
+         <img class="mx-auto card-image" crossorigin="anonymous" style="max-width: 100%; max-height: 100%;" name="card[image]" src="<%= currentUser && card.images[0].image !== undefined ? card.images[0].image : '' %>" onerror="this.onerror=null;this.src='//:0';">
+         <i class="far fa-image placeholder"></i>
+      </div>
    </div>
 </div>
 <div class="col-12 text-center">
