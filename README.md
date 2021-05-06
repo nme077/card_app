@@ -16,7 +16,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/nme077/card_app">
+  <a href="https://cardapp77.herokuapp.com/">
     <img src="public/images/White on Transparent.png" alt="Logo" width="300" height="80">
   </a>
 
