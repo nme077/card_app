@@ -42,6 +42,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuration">Configuration</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -85,6 +86,10 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm install
    ```
+   
+### Confirguration
+
+1. Add .env file with the variables in [.env.example](.env.example)
 
 
 
