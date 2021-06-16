@@ -11,7 +11,7 @@ body, html {
     width: 100vw;
     min-height: 100vh;
     background-color: #F5F5F5;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 .row {
@@ -285,7 +285,7 @@ button.bottomNav, button.topNav, a.topNav {
     page-break-after: always;
     background-color: white;
     box-shadow: 0 0 8px grey;
-    font-family: 'Arial Black', sans-serif;
+    font-family: "Helvetica Neue" sans-serif;
 }
 
 #save-message {

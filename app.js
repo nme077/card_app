@@ -23,6 +23,7 @@ const app = express();
 
 // CONNECT TO MONGODB
 mongoose.connect(process.env.URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+mongoose.set('useCreateIndex', true);
 
 // require routes
 const cardRoutes = require('./routes/cards');
@@ -32,7 +33,7 @@ const authRoutes = require('./routes/index');
 // Config
 app.use(flash());
 app.set('view engine', "ejs");
-app.use(express.static("public"));
+app.use(express.static("client"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 

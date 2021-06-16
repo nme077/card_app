@@ -1,6 +1,6 @@
 $(document).ready(() => {
-
 document.cookie = "SameSite=Secure";
+
 
 // Public Variables
 const imageContainers = document.querySelectorAll('.dropzone');
