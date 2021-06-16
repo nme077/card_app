@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "^3.2.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.23.0",
     "connect-flash": "^0.1.1",
@@ -24,17 +24,18 @@
     "fs": "0.0.1-security",
     "googleapis": "^67.1.1",
     "html2canvas": "^1.0.0-rc.7",
-    "jspdf": "^2.1.1",
+    "jspdf": "^2.3.1",
     "memorystore": "^1.6.2",
     "method-override": "^3.0.0",
     "mongodb": "^3.6.0",
-    "mongoose": "^5.10.2",
+    "mongoose": "^5.12.14",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.16",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "puppeteer": "^10.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
