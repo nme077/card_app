@@ -81,7 +81,7 @@
               <p>cardapp77.herokuapp.com</p>  
             </div>
         </div>
-        <div class="bottomofpage d-block" style="background-color: <%= currentUser ? card.bottomFrontBackgroundColor : '' %>;" data-toggle="tooltip" data-placement="top" title="Bottom half of card">
+        <div class="bottomofpage d-block" style="background-color: <%= currentUser ? card.bottomFrontBackgroundColor : '' %>;" data-toggle="tooltip" data-placement="top" title="Front of card">
             <%- include(`./card_templates/${currentUser ? card.template_choice : template}`) %>
         </div>
     </div>

@@ -33,7 +33,7 @@ const authRoutes = require('./routes/index');
 // Config
 app.use(flash());
 app.set('view engine', "ejs");
-app.use(express.static("client"));
+app.use(express.static(path.join(__dirname,"client")));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 

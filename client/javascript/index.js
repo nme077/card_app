@@ -245,9 +245,11 @@ $('.delete_button, .delete-btn-index').on('click', (e) => {
         let image;
         // Insert image source from selected photo
         this.childNodes.forEach(node => {
-            if(node.nodeName === 'IMG') {
-                image = node;
-            }
+            node.childNodes.forEach(child => {
+                if(child.nodeName === 'IMG') {
+                    image = child;
+                }
+            })
         });
 
         // Reset opacities
