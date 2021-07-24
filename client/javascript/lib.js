@@ -56,8 +56,9 @@ lib.addPlaceholderImg = function() {
     for(let el of imageElements) {
         const src = el.src.replace(/^(.*[\\\/])/,'');
         const parentElement = el.parentElement;
-
-        if(src === '' || src === 'edit' || src === 'undefined') {
+        
+        if(src === '' || src === 'edit' || src === 'undefined' || src === ':0') {
+            console.log('if this')
             // Hide default placeholder
             el.style.display = 'none';
             // Set background style of parent element
