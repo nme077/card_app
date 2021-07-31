@@ -33,6 +33,30 @@ body, html {
     padding-bottom: 6.2rem; /* height of footer */
 }
 
+.loading-print {
+    height: 100vh;
+    background: grey;
+}
+
+.loading-print-graphic {
+    color: white;
+    font-size: 7em;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+.bounce {
+    animation-name: bounce;
+    animation-timing-function: ease;
+}
+@keyframes bounce {
+    0%   { transform: scale(1.1,1.1)    }
+    15%  { transform: scale(1,1) }
+    30%  { transform: scale(1.1,1.1) }
+    50%  { transform: scale(1,1)    }
+    100% { transform: scale(1,1)    }
+}
+
 /* universal css */
 .btn-primary {
     border: none;
@@ -83,6 +107,10 @@ a:hover {
 
 #logout-button {
     color: rgb(199, 68, 68);
+}
+
+.subheading {
+    font-size: 1em;
 }
 
 .user-menu-item, .user-menu-item:hover, .delete-btn-index:hover {
@@ -540,6 +568,52 @@ img {
     position: relative;
     z-index: 1;
     padding-top: 4em;
+}
+
+#my-signin2 > div {
+    width: 100% !important;
+}
+
+hr.or {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #F5F5F5, rgb(70, 70, 70), #F5F5F5);
+    overflow: visible;
+    text-align: center;
+    height: 1px;
+    margin: 30px;
+}
+
+hr.or:after {
+    background: #F5F5F5;
+    content: 'or';
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.25em;
+    font-size: .75em;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgb(146, 146, 146);
+}
+
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .25em;
 }
 
 .alert-container{

@@ -3,20 +3,12 @@ const express = require("express"),
       methodOverride = require("method-override"),
       mongoose = require("mongoose"),
       passport = require('passport'),
-      localStrategy = require('passport-local'),
-      passportLocalMongoose = require('passport-local-mongoose'),
       session = require('express-session'),
       MemoryStore = require('memorystore')(session),
       User = require('./models/user'),
-      Card = require('./models/card'),
-      Image = require('./models/image'),
       path = require('path'),
-      fs = require('fs'),
-      mongodb = require('mongodb'),
       flash = require('connect-flash'),
-      dotenv = require('dotenv').config(),
-      multer = require('multer'),
-      cors = require('cors');
+      dotenv = require('dotenv').config();
 
 // Initialize express
 const app = express();
@@ -28,6 +20,8 @@ mongoose.set('useCreateIndex', true);
 // require routes
 const cardRoutes = require('./routes/cards');
 const authRoutes = require('./routes/index');
+const googleAuthRoutes = require('./routes/authRoutes/googleAuth');
+const localAuthRoutes = require('./routes/authRoutes/localAuth');
       
 
 // Config
@@ -50,7 +44,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
+passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -64,7 +58,9 @@ app.use((req, res, next) => {
 
 // Use routes
 app.use('/cards', cardRoutes);
+app.use(localAuthRoutes);
 app.use(authRoutes);
+app.use(googleAuthRoutes);
 
 app.get('*', (req, res) => {
     res.redirect('/');

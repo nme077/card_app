@@ -26,24 +26,10 @@ function printPDF () {
         jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' }
     };
 
-    // Show loading indicator
-    let isLoading = true;
-    lib.loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
-
     html2pdf().from(domElement).set(opt).save().then(() => {
-        // Hide loading indicator
-        isLoading = false;
-        lib.loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
-        //printing = false;
-
         // Resize the card for device after printing
         onClone(false);
     }).catch(() => {
-        // Hide loading indicator
-        isLoading = false;
-        lib.loadingIndicator(isLoading, outerHTML, originalHTML, loadingSpinner);
-        //printing = false;
-
         if(!saveDialog) {
             $(`<div class="container alert-container">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -61,19 +47,35 @@ function printPDF () {
 };
 
 function onClone(printDiv) {
+    // Scroll to top to hide transitions
+    window.scrollTo(0, 0);
+    // Show loading screen
+    printingScreen(printDiv);
     // Unhide top of page
     unhideTopPage(printDiv);
     // Replace input with text div
-    changeInputText(printDiv);
+    changeInputText();
     // Resize entire card
     lib.resizeCard(printDiv);
     // Resize placeholders
     lib.resizePlaceholder();
 }
 
+function printingScreen(printing) {
+    if(printing) {
+        document.querySelector('.content-wrap').style.paddingTop = 0;
+        document.querySelector('.loading-print').classList.remove('d-none');
+        document.querySelector('.loading-print').classList.add('d-flex');
+    } else {
+        document.querySelector('.content-wrap').style.paddingTop = '6.5rem';
+        document.querySelector('.loading-print').classList.add('d-none');
+        document.querySelector('.loading-print').classList.remove('d-flex');
+    }
+}
+
 // Unhide top half of card
-function unhideTopPage(printDiv) {
-    if(printDiv) {
+function unhideTopPage(printing) {
+    if(printing) {
         // Set display to block
         document.querySelector('.topofpage').style.display = 'block';
         // make top and bottom of page height 50%
@@ -88,7 +90,7 @@ function unhideTopPage(printDiv) {
 };
 
 // Handle change of input field to regular text to save as pdf
-function changeInputText(printDiv) {
+function changeInputText() {
     const $tagName = $('.message').prop("tagName");
     // Select the existing input field
     const $messageDiv = $('.message');
