@@ -7,6 +7,8 @@ const editPage = () => {
 
     // Handle change of input field to regular text to save as pdf
     function changeTitleText() {
+        let saveTimeout;
+        
         const $tagName = $('#card-title').prop("tagName");
         // Select the existing input field
         const $titleDiv = $('#card-title');
@@ -41,12 +43,19 @@ const editPage = () => {
         function saveEvent(e) {
             const cardTitle = document.querySelector('#card-title').value;
             if(e.key === 'Enter' && cardTitle || e.target.id !== 'card-title' && e.target.parentElement.id !== 'card-title') {
-                lib.updateCard();
+                save();
                 changeTitleText();
                 window.removeEventListener('keydown', saveEvent);
                 window.removeEventListener('click', saveEvent);
             }
         };
+
+        function save() {
+            if(saveTimeout) clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                lib.updateCard();
+            }, 2000);
+        }
     };
 }
 

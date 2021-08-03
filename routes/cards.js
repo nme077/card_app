@@ -11,7 +11,7 @@ const express = require('express'),
       { runInNewContext } = require("vm"),
       middleware = require('../middleware'),
       multer = require('multer'),
-      cloudinary = require('cloudinary').v2
+      cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
     cloud_name:  process.env.CLOUD_NAME,
@@ -123,7 +123,6 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
                                 res.redirect('back');
                             }
                         });
-
                         res.render('card', {card: foundCard, files: userImages, numOfPhotos});
                     }
                 });
@@ -159,6 +158,8 @@ function updateCard(req, card) {
             card.messages.push({'message': message});
         });
     };
+    // Card font
+    card.font = req.body.card.font;
 
     card.save();
 }

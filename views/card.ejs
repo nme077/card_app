@@ -41,7 +41,7 @@
         <div class="dropdown-menu p-1">
             <!-- Dropdown menu links -->
             <div class="background-color-list text-center">
-              <p class="display-6">Background color</p>
+              <p class="display-6 font-weight-bold mb-1">Background color</p>
               <i class="far fa-square bg-color"></i>
               <i class="fas fa-square bg-color" style="color: #373b4a;"></i>
               <i class="fas fa-square bg-color" style="color: #83aef2;"></i>
@@ -55,11 +55,20 @@
             <div class="dropdown-divider"></div>
 
             <div class="text-color-list text-center">
-              <p class="display-6">Text color</p>
+              <p class="display-6 font-weight-bold mb-1">Text color</p>
               <i class="far fa-square text-color"></i>
               <i class="fas fa-square text-color" style="color: #000000;"></i>
               <i class="fas fa-square text-color" style="color: #8a8a8a;"></i>
             </div>  
+
+            <div class="dropdown-divider"></div>
+
+            <div class="font-list text-center">
+              <p class="display-6 font-weight-bold mb-1">Font</p>
+              <% fonts.forEach((font, index) => { %>
+                <button class="font-option user-menu-item <%= index === 0 ? 'active' : null %>" id="<%= font.name %>" style="<%= font.css %>" ><%= font.name %></button>
+              <% }) %>
+            </div> 
 
             <div class="dropdown-divider"></div>
             
@@ -76,7 +85,7 @@
     </div>
 
     <!--Page to print-->
-    <div class="page">
+    <div class="page" style="font-family: <%= card.font %>;">
         <div class="topofpage">
             <!--Logo and website-->
 

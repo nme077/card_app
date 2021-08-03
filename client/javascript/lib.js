@@ -58,7 +58,6 @@ lib.addPlaceholderImg = function() {
         const parentElement = el.parentElement;
         
         if(src === '' || src === 'edit' || src === 'undefined' || src === ':0') {
-            console.log('if this')
             // Hide default placeholder
             el.style.display = 'none';
             // Set background style of parent element
@@ -101,13 +100,15 @@ lib.updateCard = function() {
 
     const cardTitle = document.querySelector('#card-title').value || document.querySelector('#card-title').textContent;
 
+    const cardFont = document.querySelector('.font-option.active').style.fontFamily;
+
     // HTTP request
     axios({
         method: 'POST',
         withCredentials: true,
         credentials: "same-origin",
         url: `/cards/${id}?_method=PUT`,
-        data: `card[image]=${imageUrlArr}&card[message]=${messageArr}&card[bottomFrontBackgroundColor]=${cardBgColor}&card[textColor]=${messageColor}&card[name]=${cardTitle}`,
+        data: `card[image]=${imageUrlArr}&card[message]=${messageArr}&card[bottomFrontBackgroundColor]=${cardBgColor}&card[textColor]=${messageColor}&card[name]=${cardTitle}&card[font]=${cardFont}`,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
@@ -173,10 +174,12 @@ lib.uploadField = function() {
 }
 
 lib.autoSave = () => {
+    let saveTimeout;
+
     // Auto-save message on change
     for(let message of lib.messages) {
         message.addEventListener('change', (e) => {
-            lib.updateCard();
+            save();
         })
     };
 
@@ -203,6 +206,12 @@ lib.autoSave = () => {
                 node.addEventListener('click', changeTextColor);
             }
         });
+
+        const fontList = document.querySelectorAll('.font-option');
+
+        fontList.forEach(el => {
+            el.addEventListener('click', changeCardFont);
+        })
     }
 
     // Handle text color selector
@@ -214,7 +223,7 @@ lib.autoSave = () => {
         }
 
         // auto save
-        lib.updateCard();
+        save();
     }
 
     // Handle background color selection
@@ -226,7 +235,26 @@ lib.autoSave = () => {
         cardBackground.style.background = color || 'white';
 
         // auto save
-        lib.updateCard();
+        save();
+    }
+
+    function changeCardFont() {
+        document.querySelector('.page').style.fontFamily = this.style.fontFamily;
+        const currentActiveClass = document.querySelector('.font-option.active');
+
+        if(currentActiveClass) currentActiveClass.classList.remove('active');
+
+        this.classList.add('active');
+
+        // auto save
+        save();
+    }
+
+    function save() {
+        if(saveTimeout) clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            lib.updateCard();
+        }, 2000);
     }
 }
 

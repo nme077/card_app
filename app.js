@@ -8,6 +8,7 @@ const express = require("express"),
       User = require('./models/user'),
       path = require('path'),
       flash = require('connect-flash'),
+      fonts = require('./fonts'),
       dotenv = require('dotenv').config();
 
 // Initialize express
@@ -30,6 +31,10 @@ app.set('view engine', "ejs");
 app.use(express.static(path.join(__dirname,"client")));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
+app.use((req, res, next) => {
+    res.locals.fonts = fonts;
+    next();
+});
 
 // Setup passport
 app.use(session({

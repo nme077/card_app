@@ -8,18 +8,19 @@
     <link rel="shortcut icon" type="image/jpg" href="/images/favicon/favicon.ico"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <% fonts.forEach((font) => { %>
+        <%- font.link %>
+    <% }) %>
+    
     <link rel="stylesheet" type="text/css" href="/stylsheets/style.css">
 
     <script src="//rum-static.pingdom.net/pa-5fc68f9b567ef90013000026.js" async></script>
     
 </head>
 <body style="visibility: hidden;" onload="document.body.style.visibility='visible'">
-    <% if(path !== '/' && path !== '/register' && path !== '/login' && path !== '/forgot') { %>
+    <% if(path !== '/' && path !== '/register' && path !== '/login' && path !== '/forgot' && !path.includes('reset')) { %>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow mb-5">
         
         <a class="navbar-brand" href="<%= !currentUser ? '/' : '/cards'%>"><img id="nav-logo" src="/images/White on Transparent.png"></a>
@@ -44,20 +45,20 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                         <div class="dropdown-item text-center" id="signedInName">
-                            <a class="disabled user-menu-item">
+                            <a class="disabled user-menu-item user-menu-item-font">
                                 Signed in as <%= currentUser.firstName %>
                             </a>
                         </div>
                         <div class="dropdown-item">
                             <form action="/user/<%= currentUser._id %>/edit" method="GET" class="text-center">
-                                <button type="submit" class="user-menu-item p-0">
+                                <button type="submit" class="user-menu-item user-menu-item-font p-0">
                                     My account
                                 </button>
                             </form>
                         </div>
                         <div class="dropdown-item">
                             <form action="/logout" method="POST" class="text-center">
-                                <button type="submit" class="user-menu-item" id="logout-button">
+                                <button type="submit" class="user-menu-item user-menu-item-font" id="logout-button">
                                     Logout <i class="fas fa-sign-out-alt ml-1"></i>
                                 </button>
                             </form>

@@ -120,7 +120,6 @@ router.post('/forgot', (req, res, next) => {
 
                 <p>Someone requested that the password for your Cards account be reset. Please click button below or copy and paste the link into your browser to reset your password.</p>
                 
-                <p><strong>Username:</strong> ${user.username}</p>
                 <button style="background: #3492eb; border-color: #3492eb; border-radius: 5px;"><a href="https://${req.headers.host}/reset/${token}" style="color: black; text-decoration: none;">Reset Password</a></button>
 
                 <p>If you did not request this, you can ignore this email or let us know. Your password won't change until you create a new password.</p>

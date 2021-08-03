@@ -99,10 +99,26 @@ a:hover {
     padding-bottom: 0;
 }
 
-.user-menu-item, .user-menu-item:visited {
+.user-menu-item {
+    width: 100%;
+}
+
+.user-menu-item-font, .user-menu-item-font:visited {
     font-size: 1.25em;
     color: grey;
-    width: 100%;
+}
+
+.user-menu-item, .user-menu-item:hover, .delete-btn-index:hover {
+    background: none;
+    border: none;
+}
+
+.font-option {
+    font-size: 0.85em;
+}
+
+.font-option:hover, .font-option.active {
+    background-color : gainsboro;
 }
 
 #logout-button {
@@ -111,11 +127,6 @@ a:hover {
 
 .subheading {
     font-size: 1em;
-}
-
-.user-menu-item, .user-menu-item:hover, .delete-btn-index:hover {
-    background: none;
-    border: none;
 }
 
 #signedInName {
