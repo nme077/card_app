@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://cardapp77.herokuapp.com/">
-    <img src="public/images/White on Transparent.png" alt="Logo" width="300" height="80">
+    <img src="client/images/White on Transparent.png" alt="Logo" width="300" height="80">
   </a>
 
   <p align="center">
