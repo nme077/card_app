@@ -115,6 +115,7 @@ a:hover {
 
 .font-option {
     font-size: 0.85em;
+    color: black;
 }
 
 .font-option:hover, .font-option.active {

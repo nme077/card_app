@@ -100,7 +100,7 @@ lib.updateCard = function() {
 
     const cardTitle = document.querySelector('#card-title').value || document.querySelector('#card-title').textContent;
 
-    const cardFont = document.querySelector('.font-option.active').style.fontFamily;
+    const cardFont = document.querySelector('.font-option.active').textContent;
 
     // HTTP request
     axios({

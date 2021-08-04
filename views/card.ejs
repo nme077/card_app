@@ -65,8 +65,9 @@
 
             <div class="font-list text-center">
               <p class="display-6 font-weight-bold mb-1">Font</p>
+              <p><%= card.font %></p>
               <% fonts.forEach((font, index) => { %>
-                <button class="font-option user-menu-item <%= index === 0 ? 'active' : null %>" id="<%= font.name %>" style="<%= font.css %>" ><%= font.name %></button>
+                <button class="font-option user-menu-item <%= card.font === font.name || (!card.font && index === 0) ? 'active' : null %>" id="<%= font.name %>" style="<%= font.css %>" ><%= font.name %></button>
               <% }) %>
             </div> 
 
