@@ -42,6 +42,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+Check out the latest design ideas on [Figma](https://www.figma.com/file/vwMJLncwv4sh645oHM45mB/Cards?node-id=24%3A4770)
+
 ### Built With
 
 * [Bootstrap](https://getbootstrap.com/)
