@@ -4,12 +4,15 @@
     <form action="<%= currentUser ? '/cards' : '/cards/guest' %>" method="POST" class="container justify-content-center col-md-8 col-lg-6 col-sm-12" id="card-content-input">
             <h1 class="mb-3">Create a new Card</h1>
 
+            <hr>
+
             <% if(currentUser) { %>
                 <div class="form-group">
-                    <input type="text" id="card-name" class="form-control" placeholder="Name of Card" name="card[name]" required>
+                    <input type="text" id="card-name" class="form-control" placeholder="Name of Card" name="card[name]" required autofocus>
                 </div>
             <% } %>
 
+            <h3>Select a Layout</h3>
             <div class="form-group" id="template_choice">
                 <select class="form-control d-none" name="card[template_choice]" id="template_list">
                     <option value="" disabled selected>--Select a template--</option>

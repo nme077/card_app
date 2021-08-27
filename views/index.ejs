@@ -41,8 +41,6 @@
                     <a href="/cards/<%= card._id %>/edit" class="card-name float-left active-card-name"><%= card.name %></a>
                     <input type="text" class="form-control edit-card-name-input disabled-card-name" value="<%= card.name %>">
                     <div class="indexFileMenu">
-                        <!--<button class="btn text-secondary edit-btn-index"><i class="fas fa-edit"></i></button>-->
-
                         <form action="/cards/<%= card._id %>?_method=DELETE" method="POST">
                             <button class="dropdown-item submit text-danger delete-btn-index" type="submit" data-toggle="modal" data-target="#deleteModal" ><i class="far fa-trash-alt"></i></button>
                         </form>

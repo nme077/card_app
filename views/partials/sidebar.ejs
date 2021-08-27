@@ -1,0 +1,85 @@
+<div class="right-sidebar">
+    <!--
+    <div class="sidebar-open-close float-right">
+      <i class="fas fa-times"></i>
+    </div>
+    -->
+  
+    <div class="format-menu sidebar-group">
+      <h4>Format</h4>
+      <div class="title-border"></div>
+      <div class="card-color-menu">
+  
+        <h6 class="sidebar-title">Card Color</h6>
+  
+        <div class="background-color-list">
+          <i class="far fa-square bg-color color-square color-white"></i>
+          <i class="fas fa-square bg-color color-square" style="color: #373b4a;"></i>
+          <i class="fas fa-square bg-color color-square" style="color: #83aef2;"></i>
+          <i class="fas fa-square bg-color color-square" style="color: #6eeb8d;"></i>
+          <i class="fas fa-square bg-color color-square" style="color: #fcf78f;"></i>
+          <i class="fas fa-square bg-color color-square" style="color: #eb766e;"></i>
+          <i class="fas fa-square bg-color color-square" style="color: #fecbdb;"></i>
+          <input class="bg-color" name="Color Picker" id="color-picker-bg" type="color"/>
+        </div>
+      </div>
+  
+      <div class="dropdown-divider"></div>
+  
+      <div class="text-color-menu">
+        <h6 class="sidebar-title">Text Color</h6>
+        <div class="text-color-list">
+          <i class="far fa-square text-color color-square color-white"></i>
+          <i class="fas fa-square text-color color-square" style="color: #373b4a;"></i>
+          <i class="fas fa-square text-color color-square" style="color: #83aef2;"></i>
+          <i class="fas fa-square text-color color-square" style="color: #6eeb8d;"></i>
+          <i class="fas fa-square text-color color-square" style="color: #fcf78f;"></i>
+          <i class="fas fa-square text-color color-square" style="color: #eb766e;"></i>
+          <i class="fas fa-square text-color color-square" style="color: #fecbdb;"></i>
+          <input class="text-color" name="Color Picker" id="color-picker-text" type="color"/>
+        </div>
+      </div>
+      
+      <div class="dropdown-divider"></div>
+  
+      <div class="font-menu">
+        <h6 class="sidebar-title">Font</h6>
+        
+        <div class="custom-select-wrapper">
+          <div class="select">
+            <div class="select-button">
+              <i class="fas fa-chevron-down select-btn-icon"></i>
+            </div>
+  
+            <div class="current-font">
+              <% fonts.forEach((font, index) => { %>
+                <% if(card.font === font.name || (!card.font && index === 0)) { %>
+                  <div class="current-font-text" style="<%= font.css %>"><%= font.name %></div>
+                <% } %>
+              <% }) %>
+            </div>
+            
+            <div class="custom-select-options">
+              <% fonts.forEach((font, index) => { %>
+                <button class="font-option text-left user-menu-item <%= card.font === font.name || (!card.font && index === 0) ? 'active' : null %>" id="<%= font.name %>" style="<%= font.css %>" ><%= font.name %></button>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="file-menu sidebar-group">
+      <div class="title-border"></div>
+      <h4>File</h4>
+      <div class="title-border"></div>
+      <div>
+        <a id="print-btn">Print to pdf</a>
+      </div>
+      <% if(currentUser) { %>
+        <form action="/cards/<%= card._id %>?_method=DELETE" method="POST">
+            <button class="dropdown-item submit text-danger text-center delete_button" type="submit" data-toggle="modal" data-target="#deleteModal">Delete card</button>
+        </form>
+      <% } %>
+    </div>  
+</div>

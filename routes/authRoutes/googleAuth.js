@@ -25,7 +25,6 @@ passport.use(new GoogleStrategy({
                 return done(null, false, 'Please login with email and password, account was originally created with this.');
             }
             const userInfo = {
-                username: profile.displayName,
                 firstName: profile.name.givenName,
                 email: verifiedEmail.value,
                 googleId: profile.id

@@ -66,6 +66,11 @@
                     </div>
                   </div>
                   <% } %>
+                  <% if(path.includes('edit') && !path.includes('user')) { %>
+                    <div class="sidebar-mobile">
+                        <%- include('./sidebar.ejs') %>
+                    </div>
+                    <% } %>
             </ul>
         </div>
     </nav>

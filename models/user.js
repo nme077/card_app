@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
     email: {type: String, unique: true, required: true},
     numOfPhotos: String,
     numOfCards: String,
-	username: {type: String, unique: true, required: true},
     password: String,
     resetPasswordToken: String,
     resetPasswordExpires: Date,

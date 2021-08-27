@@ -23,7 +23,6 @@ router.get('/register', (req, res) => {
 // Handle registration logic
 router.post('/register', (req, res) => {
     const userInfo = {
-        username: req.body.username,
         firstName: req.body.firstName,
         email: req.body.email
     };

@@ -78,7 +78,8 @@ lib.autoSave();
 
     // Rotate collapse icon on click
     function rotateIcon() {
-        $('.collapse-icon').toggleClass('collapsed-btn')
+        $('.close-icon').toggleClass('d-none');
+        $('.open-icon').toggleClass('d-none');
     }
 
     const collapseBtn = document.querySelector('#collapse-btn');

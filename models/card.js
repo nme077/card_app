@@ -5,8 +5,7 @@ const cardSchema = new mongoose.Schema({
         id: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'
-		}, 
-		username: String
+		}
     },
     template_choice: String,
     name: String,

@@ -186,26 +186,37 @@ lib.autoSave = () => {
     // Background color selector
     if(window.location.pathname.includes('/edit') && window.location.pathname.indexOf('user') !== 1) {
         // Background color selector
-        const bgColorList = document.querySelector('.background-color-list').childNodes;
-        bgColorList.forEach((node) => {
-            const classNames = node.className;
-            if(classNames && classNames.includes('bg-color')) {
-                if(node.type !== 'color') {
-                    node.addEventListener('click', changeCardBackgroundColor);    
+        const bgColorList = document.querySelectorAll('.background-color-list');
+
+        bgColorList.forEach(el => {
+            el.childNodes.forEach((node) => {
+                const classNames = node.className;
+                if(classNames && classNames.includes('bg-color')) {
+                    if(node.type !== 'color') {
+                        node.addEventListener('click', changeCardBackgroundColor);    
+                    } else {
+                        node.addEventListener('change', changeCardBackgroundColor);
+                    }
                 }
-                node.addEventListener('change', changeCardBackgroundColor);
-            }
-        });
+            });
+        })
+
 
         // Text color selector
-        const textColorList = document.querySelector('.text-color-list').childNodes;
+        const textColorList = document.querySelectorAll('.text-color-list');
 
-        textColorList.forEach((node) => {
-            const classNames = node.className;
-            if(classNames && classNames.includes('text-color')) {
-                node.addEventListener('click', changeTextColor);
-            }
-        });
+        textColorList.forEach(el => {
+            el.childNodes.forEach((node) => {
+                const classNames = node.className;
+                if(classNames && classNames.includes('text-color')) {
+                    if(node.type !== 'color') {
+                        node.addEventListener('click', changeTextColor);
+                    } else {
+                        node.addEventListener('change', changeTextColor);
+                    }
+                }
+            });
+        })
 
         const fontList = document.querySelectorAll('.font-option');
 
@@ -216,7 +227,7 @@ lib.autoSave = () => {
 
     // Handle text color selector
     function changeTextColor() {
-        const color = this.style.color || "white";
+        const color = this.style.color || this.value || "white";
 
         for(let message of lib.messages) {
             message.style.color = color;
@@ -245,6 +256,11 @@ lib.autoSave = () => {
         if(currentActiveClass) currentActiveClass.classList.remove('active');
 
         this.classList.add('active');
+
+        // Update select list current font
+        document.querySelector('.current-font-text').style.fontFamily = this.style.fontFamily;
+        document.querySelector('.current-font-text').textContent = this.textContent;
+        
 
         // auto save
         save();

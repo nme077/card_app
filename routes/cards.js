@@ -80,8 +80,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
     const image = req.body.card.image;
     const message = req.body.card.message;
     const user = {
-		id: req.user._id,
-		username: req.user.username
+		id: req.user._id
     };
     const currentDate = new Date();
     const dateCreated = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
@@ -116,6 +115,7 @@ router.get('/:id/edit',middleware.isLoggedIn, (req, res) => {
                         req.flash('error', 'Error loading photos')
                     } else {
                         const userImages = foundImages.filter(image => image.user.id.equals(req.user._id));
+
                         let numOfPhotos = userImages.length;
                         User.findByIdAndUpdate(req.user._id, {numOfPhotos}, (err, user) => {
                             if(err) {
@@ -235,8 +235,7 @@ router.post('/image/upload', middleware.isLoggedIn, upload.single("imageUpload")
             href: result.secure_url,
             file_id: result.public_id,
             user: {
-                id: req.user._id,
-                username: req.user.username
+                id: req.user._id
             }
         }
         // 2. Create the file info in the db
