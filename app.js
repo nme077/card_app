@@ -42,7 +42,7 @@ app.use(session({
     store: new MemoryStore({
         checkPeriod: 86400000 // prune expired entries every 24h
     }),
-    secret: 'Def Leppard is the GOAT',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     credentials: true
