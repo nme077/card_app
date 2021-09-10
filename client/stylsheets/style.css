@@ -288,11 +288,11 @@ button.bottomNav, button.topNav, a.topNav {
     z-index: 1;
 }
   
-.template-picker-img:hover .tooltip-text, #print-btn:hover .tooltip-text {
+.template-picker-img:hover .tooltip-text, .print-btn:hover .tooltip-text {
     visibility: visible;
 }
 
-#print-btn:hover .tooltip-text {
+.print-btn:hover .tooltip-text {
     visibility: visible;
 }
 
@@ -343,7 +343,7 @@ button.bottomNav, button.topNav, a.topNav {
     z-index: 5;
 }
 
-#print-btn {
+.print-btn {
     cursor: pointer;
     margin-bottom: 50px;
 }
@@ -749,8 +749,9 @@ footer {
         border: 1px solid white;
     }
 
-    #print-btn {
+    .print-btn {
         color: white;
+        user-select: none;
     }
   }
 
@@ -773,8 +774,9 @@ footer {
         border: 1px solid black;
     }
 
-    #print-btn {
+    .print-btn {
         color: black;
+        user-select: none;
     }
 }
 

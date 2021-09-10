@@ -1,8 +1,9 @@
 import lib from './lib.js'
 
-const printHandler = () => {
+const printHandler = function() {
+    document.querySelector('print-btn')
     // Print button
-    $('#print-btn').on('click', (e) => {
+    $('.print-btn').on('click', (e) => {
         $('.page').removeClass('page-transform');
         $('.page').addClass('page-transform');
         printPDF();
@@ -13,10 +14,7 @@ const printHandler = () => {
 function printPDF () {
     const domElement = document.querySelector('.page');
     const fileName = document.querySelector('#card-title').textContent || 'Card';
-    const outerHTML = document.querySelector('#print-btn');
-    const originalHTML = outerHTML.innerHTML;
     const saveDialog = document.querySelector('#save-success');
-    const loadingSpinner = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
 
     var opt = {
         margin: [-8, 0, -9, 0],
