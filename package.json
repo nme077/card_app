@@ -43,7 +43,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.19",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1"
   }
